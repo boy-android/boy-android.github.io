@@ -1,0 +1,471 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#06132f">
+  <meta name="description" content="Daftar akun Boy-Android">
+  <title>Daftar Akun | Boy-Android</title>
+
+  <link
+    rel="icon"
+    type="image/png"
+    href="boy-android-logo-transparent.png"
+  >
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #06132f;
+      --card: #061632;
+      --input: #0b2048;
+      --primary: #1685ff;
+      --text: #f4f7ff;
+      --muted: #9bb6e5;
+      --border: #23477f;
+    }
+
+    body {
+      min-height: 100vh;
+      padding: 35px 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: "Segoe UI", Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(ellipse at 10% 10%, #123d87, transparent 45%),
+        radial-gradient(ellipse at 90% 90%, #102c69, transparent 40%),
+        linear-gradient(135deg, #06132f, #081d48 55%, #06132f);
+    }
+
+    .register-card {
+      width: 100%;
+      max-width: 490px;
+      padding: 38px 40px;
+      border-radius: 22px;
+      background: rgba(5, 19, 47, 0.92);
+      border: 1px solid #234b91;
+      box-shadow: 0 25px 70px #00000035;
+    }
+
+    .brand {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 12px;
+    }
+
+    .brand-icon {
+      width: 62px;
+      height: 62px;
+      flex: 0 0 62px;
+    }
+
+    .brand-icon img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: contain;
+    }
+
+    .brand h1 {
+      font-size: 32px;
+      letter-spacing: -1px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 30px;
+    }
+
+    .form-group {
+      margin-bottom: 19px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 9px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .input-wrap {
+      display: flex;
+      align-items: center;
+      border: 1px solid #284d89;
+      border-radius: 12px;
+      background: var(--input);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .input-wrap:focus-within {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px #1685ff20;
+    }
+
+    .input-icon {
+      padding-left: 15px;
+      color: #80b6ff;
+      font-size: 19px;
+    }
+
+    .input-wrap input {
+      width: 100%;
+      min-width: 0;
+      padding: 15px 12px;
+      border: none;
+      outline: none;
+      background: transparent;
+      color: white;
+      font: inherit;
+      font-size: 14px;
+    }
+
+    .input-wrap input::placeholder {
+      color: #8ba8d8;
+    }
+
+    .toggle-password {
+      padding: 12px 14px;
+      border: none;
+      background: transparent;
+      color: #80b6ff;
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    .hint {
+      margin-top: 7px;
+      color: #829dc8;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .terms {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      margin: 22px 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .terms input {
+      margin-top: 4px;
+      accent-color: var(--primary);
+      flex-shrink: 0;
+    }
+
+    a {
+      color: #48a5ff;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .submit-button {
+      width: 100%;
+      padding: 16px;
+      border: none;
+      border-radius: 12px;
+      color: white;
+      background: linear-gradient(100deg, #1685ff, #0754e9);
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .submit-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px #1685ff40;
+    }
+
+    .message {
+      display: none;
+      margin-top: 16px;
+      padding: 13px;
+      border: 1px solid #34588c;
+      border-radius: 10px;
+      color: #b9d5ff;
+      background: #0b2048;
+      font-size: 13px;
+      line-height: 1.6;
+      overflow-wrap: anywhere;
+    }
+
+    .message.show {
+      display: block;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      margin: 25px 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: "";
+      height: 1px;
+      flex: 1;
+      background: var(--border);
+    }
+
+    .login-link {
+      display: block;
+      padding: 14px;
+      border: 1px solid var(--primary);
+      border-radius: 12px;
+      text-align: center;
+      font-weight: 700;
+    }
+
+    .login-link:hover {
+      background: #1685ff14;
+      text-decoration: none;
+    }
+
+    footer {
+      margin-top: 25px;
+      text-align: center;
+      color: #7895c3;
+      font-size: 11px;
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 20px 13px;
+      }
+
+      .register-card {
+        padding: 28px 20px;
+        border-radius: 18px;
+      }
+
+      .brand-icon {
+        width: 52px;
+        height: 52px;
+        flex-basis: 52px;
+      }
+
+      .brand h1 {
+        font-size: 26px;
+      }
+
+      .subtitle {
+        margin-bottom: 25px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="register-card">
+
+    <header class="brand">
+      <div class="brand-icon">
+        <img
+          src="boy-android-logo-transparent.png"
+          alt="Logo Boy-Android"
+        >
+      </div>
+      <h1>Boy-Android</h1>
+    </header>
+
+    <p class="subtitle">Buat akun baru untuk memulai</p>
+
+    <form id="registerForm">
+      <div class="form-group">
+        <label for="fullName">Nama lengkap</label>
+        <div class="input-wrap">
+          <span class="input-icon" aria-hidden="true">♙</span>
+          <input
+            type="text"
+            id="fullName"
+            name="fullName"
+            placeholder="Masukkan nama lengkap"
+            autocomplete="name"
+            maxlength="100"
+            required
+          >
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <div class="input-wrap">
+          <span class="input-icon" aria-hidden="true">✉</span>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="nama@email.com"
+            autocomplete="email"
+            required
+          >
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="input-wrap">
+          <span class="input-icon" aria-hidden="true">♙</span>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Buat password"
+            autocomplete="new-password"
+            minlength="8"
+            required
+          >
+          <button
+            type="button"
+            class="toggle-password"
+            data-target="password"
+            aria-label="Tampilkan password"
+            aria-pressed="false"
+          >◉</button>
+        </div>
+        <p class="hint">Gunakan minimal 8 karakter.</p>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Konfirmasi password</label>
+        <div class="input-wrap">
+          <span class="input-icon" aria-hidden="true">♙</span>
+          <input
+            type="password"
+            id="confirmPassword"
+            name="confirmPassword"
+            placeholder="Masukkan ulang password"
+            autocomplete="new-password"
+            minlength="8"
+            required
+          >
+          <button
+            type="button"
+            class="toggle-password"
+            data-target="confirmPassword"
+            aria-label="Tampilkan konfirmasi password"
+            aria-pressed="false"
+          >◉</button>
+        </div>
+      </div>
+
+      <label class="terms">
+        <input type="checkbox" id="agree" required>
+        <span>
+          Saya menyetujui ketentuan penggunaan dan kebijakan privasi.
+        </span>
+      </label>
+
+      <button type="submit" class="submit-button">
+        Buat Akun &nbsp; →
+      </button>
+
+      <div
+        class="message"
+        id="message"
+        role="status"
+        aria-live="polite"
+      ></div>
+
+      <div class="divider">Sudah punya akun?</div>
+
+      <a href="index.html" class="login-link">
+        ← &nbsp; Kembali ke Login
+      </a>
+    </form>
+
+    <footer>
+      © <span id="year"></span> Boy-Android
+    </footer>
+
+  </main>
+
+  <script>
+    document.getElementById("year").textContent =
+      new Date().getFullYear();
+
+    const message = document.getElementById("message");
+    const form = document.getElementById("registerForm");
+    const password = document.getElementById("password");
+    const confirmPassword = document.getElementById("confirmPassword");
+
+    function showMessage(text) {
+      message.textContent = text;
+      message.classList.add("show");
+    }
+
+    // Tombol tampil/sembunyikan password
+    document.querySelectorAll(".toggle-password").forEach((button) => {
+      button.addEventListener("click", () => {
+        const input = document.getElementById(button.dataset.target);
+        const isHidden = input.type === "password";
+
+        input.type = isHidden ? "text" : "password";
+        button.textContent = isHidden ? "◎" : "◉";
+        button.setAttribute("aria-pressed", String(isHidden));
+        button.setAttribute(
+          "aria-label",
+          isHidden ? "Sembunyikan password" : "Tampilkan password"
+        );
+      });
+    });
+
+    // Periksa apakah kedua password sama
+    confirmPassword.addEventListener("input", () => {
+      confirmPassword.setCustomValidity(
+        confirmPassword.value &&
+        confirmPassword.value !== password.value
+          ? "Password tidak cocok."
+          : ""
+      );
+    });
+
+    password.addEventListener("input", () => {
+      confirmPassword.setCustomValidity(
+        confirmPassword.value &&
+        confirmPassword.value !== password.value
+          ? "Password tidak cocok."
+          : ""
+      );
+    });
+
+    // Form pendaftaran demo
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      if (password.value !== confirmPassword.value) {
+        confirmPassword.setCustomValidity("Password tidak cocok.");
+        confirmPassword.reportValidity();
+        return;
+      }
+
+      confirmPassword.setCustomValidity("");
+
+      showMessage(
+        "Form berhasil divalidasi, tetapi akun belum dibuat. Hubungkan Supabase Auth atau backend agar pendaftaran dapat menyimpan akun dengan aman."
+      );
+    });
+  </script>
+</body>
+</html>
