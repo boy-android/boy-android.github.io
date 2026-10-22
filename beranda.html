@@ -45,6 +45,7 @@
     .lead{color:var(--muted);font-size:16px;line-height:1.75;max-width:680px;margin:0}
     .email{color:#fff;font-weight:700;overflow-wrap:anywhere}
     .tagline{margin:10px 0 0;color:#64b5ff;font-size:15px;font-weight:800;letter-spacing:.5px}
+    .login-success{margin:10px 0 0;color:#9fe7b0;font-size:14px;font-weight:600;line-height:1.6}
     .grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px;margin-top:22px;align-items:stretch;overflow-x:auto;padding-bottom:4px}
     .tile{min-height:76px;padding:18px 12px;display:flex;align-items:center;justify-content:center;text-align:center;border:1px solid var(--line);border-radius:18px;background:var(--panel);box-shadow:0 18px 48px #0002}
     h2{font-size:18px;margin:0}
@@ -86,7 +87,8 @@
         <h1>Selamat datang di Boy-Android</h1>
         <h1>Software &amp; Hardware SmartPhone Solution</h1>
         <p class="lead">Halo, <span class="email" id="userEmail">memeriksa akun...</span>. selamat datang di website tercinta kita</p>
-        <p class="tagline">The real Tutorials Daily use</p>
+        <p class="tagline">Real Tutorials for Everyday Use</p>
+        <p class="login-success" id="loginSuccess" role="status" hidden>Login berhasil. Selamat menggunakan Boy-Android!</p>
       </section>
 
       <section class="grid" id="menuGrid" aria-label="Menu beranda">
@@ -110,6 +112,7 @@
     const emailEl = document.getElementById("userEmail");
     const approvalText = document.getElementById("approvalText");
     const messageEl = document.getElementById("message");
+    const loginSuccess = document.getElementById("loginSuccess");
     const logoutButton = document.getElementById("logoutButton");
     const sidebar = document.getElementById("sidebar");
     const profileButton = document.getElementById("profileButton");
@@ -155,7 +158,8 @@
         return;
       }
       approvalText.textContent = "Akun disetujui oleh admin.";
-      messageEl.textContent = "Login berhasil. Selamat menggunakan Boy-Android!";
+      loginSuccess.hidden = false;
+      messageEl.hidden = true;
     }
 
     logoutButton.addEventListener("click", async () => {
