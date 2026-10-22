@@ -1,1 +1,655 @@
-nothing
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#06132f">
+  <meta name="description" content="Login ke akun Boy-Android">
+  <title>Login | Boy-Android</title>
+
+  <style>
+    /* ===== RESET & WARNA ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #06132f;
+      --bg-light: #0b2048;
+      --primary: #1685ff;
+      --primary-dark: #0754e9;
+      --text: #f4f7ff;
+      --muted: #9bb6e5;
+      --border: #23477f;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: "Segoe UI", Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(
+          ellipse at 15% 10%,
+          #123d87 0%,
+          transparent 45%
+        ),
+        radial-gradient(
+          ellipse at 90% 90%,
+          #102c69 0%,
+          transparent 40%
+        ),
+        linear-gradient(135deg, #06132f, #081d48 55%, #06132f);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 35px 24px;
+      overflow-x: hidden;
+    }
+
+    /* ===== LAYOUT UTAMA ===== */
+    .container {
+      width: 100%;
+      max-width: 1100px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 70px;
+    }
+
+    /* ===== BAGIAN SELAMAT DATANG ===== */
+    .welcome {
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    .illustration {
+      width: 230px;
+      height: 190px;
+      margin: 0 auto 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      border-radius: 50%;
+      background: radial-gradient(
+        circle,
+        #164a9d 0%,
+        #0b2455 60%,
+        transparent 72%
+      );
+    }
+
+    .laptop {
+      width: 175px;
+      height: 120px;
+      border: 8px solid #2786ff;
+      border-radius: 12px;
+      background: linear-gradient(145deg, #102d61, #06132f);
+      box-shadow: 0 0 30px #1685ff35;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .laptop::before {
+      content: "";
+      width: 5px;
+      height: 5px;
+      background: #7ebaff;
+      border-radius: 50%;
+      position: absolute;
+      top: -5px;
+    }
+
+    .laptop::after {
+      content: "";
+      position: absolute;
+      bottom: -18px;
+      left: -17px;
+      width: 193px;
+      height: 10px;
+      border-radius: 3px 3px 10px 10px;
+      background: linear-gradient(
+        90deg,
+        #1261db,
+        #62b3ff,
+        #1261db
+      );
+    }
+
+    .lock {
+      width: 43px;
+      height: 38px;
+      background: linear-gradient(135deg, #66b5ff, #1685ff);
+      border-radius: 8px;
+      position: relative;
+      margin-top: 15px;
+    }
+
+    .lock::before {
+      content: "";
+      position: absolute;
+      width: 22px;
+      height: 25px;
+      border: 6px solid #66b5ff;
+      border-bottom: none;
+      border-radius: 15px 15px 0 0;
+      top: -25px;
+      left: 5px;
+    }
+
+    .lock::after {
+      content: "";
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: #08204b;
+      border-radius: 50%;
+      top: 11px;
+      left: 17px;
+      box-shadow: 0 7px 0 -2px #08204b;
+    }
+
+    .plant {
+      position: absolute;
+      bottom: 4px;
+      left: 8px;
+      width: 25px;
+      height: 30px;
+      background: linear-gradient(135deg, #1685ff, #0754e9);
+      border-radius: 3px 3px 9px 9px;
+    }
+
+    .plant::before {
+      content: "";
+      position: absolute;
+      width: 13px;
+      height: 27px;
+      background: #1685ff;
+      border-radius: 100% 0 100% 0;
+      top: -27px;
+      left: -3px;
+      transform: rotate(-20deg);
+      box-shadow: 14px -5px 0 -2px #2786ff;
+    }
+
+    .welcome h1 {
+      font-size: clamp(32px, 4vw, 44px);
+      letter-spacing: -1.5px;
+      line-height: 1.2;
+      margin-bottom: 18px;
+    }
+
+    .welcome h1 span {
+      color: var(--primary);
+    }
+
+    .welcome p {
+      max-width: 400px;
+      margin: 0 auto;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.8;
+    }
+
+    /* ===== KARTU LOGIN ===== */
+    .login-card {
+      width: 100%;
+      padding: 40px;
+      border-radius: 22px;
+      background: rgba(5, 19, 47, 0.88);
+      border: 1px solid #234b91;
+      box-shadow: 0 25px 70px #00000035;
+      backdrop-filter: blur(15px);
+    }
+
+    .brand {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 12px;
+    }
+
+    .brand-icon {
+      width: 58px;
+      height: 58px;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      background: transparent;
+    }
+
+    .brand-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .brand h2 {
+      font-size: clamp(25px, 3vw, 36px);
+      letter-spacing: -1px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: var(--muted);
+      font-size: 15px;
+      margin-bottom: 38px;
+    }
+
+    /* ===== INPUT ===== */
+    .form-group {
+      margin-bottom: 24px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 11px;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .input-wrap {
+      display: flex;
+      align-items: center;
+      min-width: 0;
+      border: 1px solid #284d89;
+      border-radius: 13px;
+      background: #0b2048;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .input-wrap:focus-within {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px #1685ff20;
+    }
+
+    .input-icon {
+      padding-left: 16px;
+      color: #80b6ff;
+      font-size: 20px;
+    }
+
+    .input-wrap input {
+      width: 100%;
+      min-width: 0;
+      padding: 17px 13px;
+      border: none;
+      outline: none;
+      color: white;
+      background: transparent;
+      font: inherit;
+      font-size: 14px;
+    }
+
+    .input-wrap input::placeholder {
+      color: #8ba8d8;
+    }
+
+    .toggle-password {
+      flex-shrink: 0;
+      border: none;
+      background: transparent;
+      color: #80b6ff;
+      padding: 12px 15px;
+      font-size: 19px;
+      cursor: pointer;
+    }
+
+    /* ===== OPSI LOGIN ===== */
+    .options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 2px 0 28px;
+      font-size: 13px;
+    }
+
+    .remember {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      cursor: pointer;
+    }
+
+    .remember input {
+      width: 17px;
+      height: 17px;
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+
+    a {
+      color: #48a5ff;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    /* ===== TOMBOL ===== */
+    .login-button {
+      width: 100%;
+      padding: 17px;
+      border: none;
+      border-radius: 13px;
+      color: white;
+      background: linear-gradient(100deg, #1685ff, #0754e9);
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .login-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px #1685ff40;
+    }
+
+    .login-button:active {
+      transform: translateY(0);
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 28px 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: "";
+      height: 1px;
+      flex: 1;
+      background: var(--border);
+    }
+
+    .register-button {
+      display: block;
+      width: 100%;
+      padding: 16px;
+      border: 1px solid var(--primary);
+      border-radius: 13px;
+      text-align: center;
+      font-weight: 700;
+      color: #48a5ff;
+      background: transparent;
+      transition: background 0.2s;
+    }
+
+    .register-button:hover {
+      background: #1685ff14;
+      text-decoration: none;
+    }
+
+    .message {
+      display: none;
+      margin-top: 17px;
+      padding: 13px;
+      border: 1px solid #34588c;
+      border-radius: 10px;
+      color: #b9d5ff;
+      background: #0b2048;
+      font-size: 13px;
+      line-height: 1.6;
+      overflow-wrap: anywhere;
+    }
+
+    .message.show {
+      display: block;
+    }
+
+    footer {
+      margin-top: 25px;
+      color: #7895c3;
+      font-size: 11px;
+      text-align: center;
+    }
+
+    /* ===== RESPONSIVE HP & TABLET ===== */
+    @media (max-width: 850px) {
+      body {
+        padding: 30px 18px;
+      }
+
+      .container {
+        max-width: 470px;
+        grid-template-columns: 1fr;
+        gap: 25px;
+      }
+
+      .welcome {
+        padding: 0;
+      }
+
+      .illustration {
+        width: 155px;
+        height: 125px;
+        margin-bottom: 22px;
+      }
+
+      .laptop {
+        transform: scale(0.75);
+      }
+
+      .plant {
+        transform: scale(0.8);
+      }
+
+      .welcome h1 {
+        font-size: 31px;
+        margin-bottom: 10px;
+      }
+
+      .welcome p {
+        font-size: 14px;
+      }
+
+      .login-card {
+        padding: 30px 24px;
+      }
+
+      .subtitle {
+        margin-bottom: 30px;
+      }
+    }
+
+    @media (max-width: 380px) {
+      body {
+        padding: 22px 13px;
+      }
+
+      .login-card {
+        padding: 25px 18px;
+      }
+
+      .brand h2 {
+        font-size: 25px;
+      }
+
+      .options {
+        font-size: 12px;
+      }
+
+      .input-wrap input {
+        padding: 15px 10px;
+        font-size: 13px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="container">
+
+    <!-- BAGIAN KIRI -->
+    <section class="welcome">
+      <div class="illustration" aria-hidden="true">
+        <div class="plant"></div>
+        <div class="laptop">
+          <div class="lock"></div>
+        </div>
+      </div>
+
+      <h1>Selamat <span>Datang!</span></h1>
+      <p>Silakan login untuk melanjutkan.</p>
+    </section>
+
+    <!-- BAGIAN LOGIN -->
+    <section class="login-card">
+      <div class="brand">
+        <div class="brand-icon">
+          <img src="logo.png" alt="Logo Boy-Android">
+          </div>
+        <h2>Boy-Android</h2>
+      </div>
+
+      <p class="subtitle">Login ke akun Anda</p>
+
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="email">Email</label>
+
+          <div class="input-wrap">
+            <span class="input-icon" aria-hidden="true">✉</span>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Masukkan email Anda"
+              autocomplete="username"
+              required
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+
+          <div class="input-wrap">
+            <span class="input-icon" aria-hidden="true">♙</span>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Masukkan password Anda"
+              autocomplete="current-password"
+              required
+            >
+
+            <button
+              type="button"
+              class="toggle-password"
+              id="togglePassword"
+              aria-label="Tampilkan password"
+              aria-pressed="false"
+            >◉</button>
+          </div>
+        </div>
+
+        <div class="options">
+          <label class="remember">
+            <input type="checkbox" id="remember">
+            <span>Ingat saya</span>
+          </label>
+
+          <a href="#" id="forgotLink">Lupa password?</a>
+        </div>
+
+        <button type="submit" class="login-button">
+          Login &nbsp; →
+        </button>
+
+        <div
+          class="message"
+          id="message"
+          role="status"
+          aria-live="polite"
+        ></div>
+
+        <div class="divider">Belum punya akun?</div>
+
+        <a href="register.html" class="register-button">
+          ♙ &nbsp; Daftar sekarang &nbsp; →
+        </a>
+      </form>
+
+      <footer>
+        © <span id="year"></span> Boy-Android
+      </footer>
+    </section>
+
+  </main>
+
+  <script>
+    const form = document.getElementById("loginForm");
+    const password = document.getElementById("password");
+    const togglePassword = document.getElementById("togglePassword");
+    const message = document.getElementById("message");
+
+    // Tahun otomatis
+    document.getElementById("year").textContent =
+      new Date().getFullYear();
+
+    // Tampilkan atau sembunyikan password
+    togglePassword.addEventListener("click", function () {
+      const isHidden = password.type === "password";
+
+      password.type = isHidden ? "text" : "password";
+
+      togglePassword.textContent = isHidden ? "◎" : "◉";
+      togglePassword.setAttribute(
+        "aria-label",
+        isHidden ? "Sembunyikan password" : "Tampilkan password"
+      );
+      togglePassword.setAttribute("aria-pressed", String(isHidden));
+    });
+
+    // Pesan status
+    function showMessage(text) {
+      message.textContent = text;
+      message.classList.add("show");
+    }
+
+    // Form login demo
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      showMessage(
+        "Tampilan login berfungsi, tetapi autentikasi belum dihubungkan. Hubungkan Supabase Auth atau backend untuk memverifikasi akun."
+      );
+    });
+
+    // Lupa password
+    document.getElementById("forgotLink").addEventListener(
+      "click",
+      function (event) {
+        event.preventDefault();
+
+        showMessage(
+          "Fitur reset password belum diaktifkan. Hubungkan layanan autentikasi untuk menggunakannya."
+        );
+      }
+    );
+  </script>
+</body>
+</html>
