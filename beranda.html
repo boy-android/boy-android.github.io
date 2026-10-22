@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#06132f">
+  <title>Beranda | Boy-Android</title>
+  <link rel="icon" type="image/png" href="boy-android-logo-transparent.png">
+  <style>
+    :root{color-scheme:dark;--bg:#06132f;--panel:rgba(5,19,47,.88);--line:#234b91;--muted:#9bb6e5;--blue:#1685ff;--blue2:#0754e9;--text:#f4f7ff}
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;font-family:"Segoe UI",Arial,sans-serif;color:var(--text);background:radial-gradient(ellipse at 12% 8%,#123d87,transparent 42%),radial-gradient(ellipse at 90% 75%,#102c63,transparent 38%),linear-gradient(135deg,#06132f,#081d48 55%,#06132f)}
+    a,button{font:inherit}
+    .shell{width:min(1100px,100%);margin:auto;padding:24px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:12px 0 28px;border-bottom:1px solid #234b9166}
+    .brand{display:flex;align-items:center;gap:12px;color:var(--text);text-decoration:none;font-weight:800;font-size:20px;letter-spacing:.2px}
+    .brand img{width:48px;height:48px;object-fit:contain}
+    .header-actions{display:flex;gap:10px;flex-wrap:wrap}
+    .button{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 16px;border-radius:12px;text-decoration:none;font-weight:700;cursor:pointer;border:1px solid #1685ff;color:#8fc8ff;background:transparent}
+    .button.primary{background:linear-gradient(100deg,var(--blue),var(--blue2));color:white;border-color:transparent}
+    .hero{padding:44px 0 30px}
+    .eyebrow{color:#64b5ff;text-transform:uppercase;font-size:12px;letter-spacing:2px;font-weight:800}
+    h1{font-size:clamp(30px,5vw,46px);line-height:1.12;margin:10px 0 12px;letter-spacing:-.8px}
+    .lead{color:var(--muted);font-size:16px;line-height:1.75;max-width:680px;margin:0}
+    .email{color:#fff;font-weight:700;overflow-wrap:anywhere}
+    .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:22px}
+    .tile{min-height:180px;padding:22px;border:1px solid var(--line);border-radius:18px;background:var(--panel);box-shadow:0 18px 48px #0002}
+    .tile .symbol{display:grid;place-items:center;width:44px;height:44px;border-radius:13px;background:#0d3470;color:#79beff;font-size:22px;margin-bottom:16px}
+    h2{font-size:18px;margin:0 0 8px}
+    .tile p{color:var(--muted);font-size:14px;line-height:1.65;margin:0}
+    .notice{margin-top:22px;padding:16px 18px;border:1px solid #234b91;border-radius:14px;background:#071a3a;color:var(--muted);line-height:1.6;font-size:14px}
+    footer{padding:30px 0 10px;color:#7795c8;font-size:12px;text-align:center}
+    #message{color:#ffcf86}
+    @media(max-width:760px){.grid{grid-template-columns:1fr}.tile{min-height:auto}.shell{padding:18px}.hero{padding-top:32px}header{align-items:flex-start}.brand{font-size:18px}.header-actions{justify-content:flex-end}}
+    @media(max-width:440px){header{flex-direction:column}.header-actions{width:100%}.header-actions .button{flex:1}}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header>
+      <a class="brand" href="beranda.html" aria-label="Boy-Android beranda">
+        <img src="boy-android-logo-transparent.png" alt="Logo Boy-Android">
+        <span>Boy-Android</span>
+      </a>
+      <nav class="header-actions" aria-label="Navigasi akun">
+        <a class="button" href="dashboard.html">Status akun</a>
+        <button class="button primary" id="logoutButton" type="button">Keluar</button>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="eyebrow">Dashboard utama</div>
+        <h1>Selamat datang di Boy-Android</h1>
+        <p class="lead">Halo, <span class="email" id="userEmail">memeriksa akun...</span>. Ini adalah beranda utama akunmu.</p>
+      </section>
+
+      <section class="grid" aria-label="Menu beranda">
+        <article class="tile">
+          <div class="symbol" aria-hidden="true">⌂</div>
+          <h2>Beranda</h2>
+          <p>Kamu sedang berada di halaman utama Boy-Android. Menu dan fitur lainnya dapat ditambahkan sesuai kebutuhan website.</p>
+        </article>
+        <article class="tile">
+          <div class="symbol" aria-hidden="true">✓</div>
+          <h2>Status akun</h2>
+          <p id="approvalText">Sedang memeriksa status persetujuan akunmu...</p>
+          <p style="margin-top:12px"><a href="dashboard.html" style="color:#64b5ff;font-weight:700">Lihat detail akun →</a></p>
+        </article>
+        <article class="tile">
+          <div class="symbol" aria-hidden="true">✦</div>
+          <h2>Fitur Boy-Android</h2>
+          <p>Area ini disiapkan untuk fitur utama yang akan kamu tambahkan nanti.</p>
+        </article>
+      </section>
+      <div class="notice" id="message" role="status">Memeriksa sesi login dan izin akun...</div>
+    </main>
+    <footer>© <span id="year"></span> Boy-Android</footer>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = "https://ynohxhmcyoqkupxbqxhn.supabase.co";
+    const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_t0pDUhdqe6RikCmVcYRvjg_vmSahQF7";
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+    const emailEl = document.getElementById("userEmail");
+    const approvalText = document.getElementById("approvalText");
+    const messageEl = document.getElementById("message");
+    const logoutButton = document.getElementById("logoutButton");
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    async function initializeHome() {
+      const { data: sessionData, error: sessionError } = await supabaseClient.auth.getSession();
+      if (sessionError || !sessionData.session) {
+        window.location.replace("index.html");
+        return;
+      }
+      const user = sessionData.session.user;
+      emailEl.textContent = user.email || "Pengguna Boy-Android";
+
+      const { data: access, error: accessError } = await supabaseClient
+        .from("user_access")
+        .select("status")
+        .eq("user_id", user.id)
+        .maybeSingle();
+
+      if (accessError || !access) {
+        approvalText.textContent = "Status akun belum dapat diverifikasi.";
+        messageEl.textContent = "Akses beranda belum dapat diverifikasi. Coba lagi nanti atau hubungi admin.";
+        return;
+      }
+      if (access.status !== "approved") {
+        approvalText.textContent = access.status === "rejected" ? "Akun ditolak." : "Menunggu persetujuan admin.";
+        messageEl.textContent = "Akun ini belum disetujui untuk menggunakan fitur utama.";
+        return;
+      }
+      approvalText.textContent = "Akun disetujui oleh admin.";
+      messageEl.textContent = "Login berhasil. Selamat menggunakan Boy-Android!";
+    }
+
+    logoutButton.addEventListener("click", async () => {
+      logoutButton.disabled = true;
+      logoutButton.textContent = "Keluar...";
+      const { error } = await supabaseClient.auth.signOut();
+      if (error) {
+        messageEl.textContent = "Gagal keluar: " + error.message;
+        logoutButton.disabled = false;
+        logoutButton.textContent = "Keluar";
+        return;
+      }
+      window.location.replace("index.html");
+    });
+
+    initializeHome();
+  </script>
+</body>
+</html>
