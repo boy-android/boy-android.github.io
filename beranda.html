@@ -46,10 +46,9 @@
     .email{color:#fff;font-weight:700;overflow-wrap:anywhere}
     .tagline{margin:10px 0 0;color:#64b5ff;font-size:15px;font-weight:800;letter-spacing:.5px}
     .grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px;margin-top:22px;align-items:stretch;overflow-x:auto;padding-bottom:4px}
-    .tile{min-height:180px;padding:22px;border:1px solid var(--line);border-radius:18px;background:var(--panel);box-shadow:0 18px 48px #0002}
-    .tile .symbol{display:grid;place-items:center;width:44px;height:44px;border-radius:13px;background:#0d3470;color:#79beff;font-size:22px;margin-bottom:16px}
-    h2{font-size:18px;margin:0 0 8px}
-    .tile p{color:var(--muted);font-size:14px;line-height:1.65;margin:0}
+    .tile{min-height:76px;padding:18px 12px;display:flex;align-items:center;justify-content:center;text-align:center;border:1px solid var(--line);border-radius:18px;background:var(--panel);box-shadow:0 18px 48px #0002}
+    h2{font-size:18px;margin:0}
+    .tile-status{display:none}
     .notice{margin-top:22px;padding:16px 18px;border:1px solid #234b91;border-radius:14px;background:#071a3a;color:var(--muted);line-height:1.6;font-size:14px}
     footer{padding:30px 0 10px;color:#7795c8;font-size:12px;text-align:center}
     #message{color:#ffcf86}
@@ -92,34 +91,13 @@
       </section>
 
       <section class="grid" id="menuGrid" aria-label="Menu beranda">
-        <article class="tile">
-          <div class="symbol" aria-hidden="true">⌂</div>
-          <h2>Beranda</h2>
-          <p>Kamu sedang berada di halaman utama Boy-Android. Menu dan fitur lainnya dapat ditambahkan sesuai kebutuhan website.</p>
-        </article>
-        <article class="tile">
-          <div class="symbol" aria-hidden="true">✓</div>
-          <h2>2</h2>
-          <p id="approvalText">Sedang memeriksa status persetujuan akunmu...</p>
-          <p style="margin-top:12px"><a href="profil-akun.html" style="color:#64b5ff;font-weight:700">Lihat detail akun →</a></p>
-        </article>
-        <article class="tile">
-          <div class="symbol" aria-hidden="true">✦</div>
-          <h2>3</h2>
-          <p>Area ini disiapkan untuk fitur utama yang akan kamu tambahkan nanti.</p>
-        </article>
-        <article class="tile">
-          <div class="symbol" aria-hidden="true">▶</div>
-          <h2>4</h2>
-          <p>Tempat untuk menjelajahi tutorial dan panduan penggunaan sehari-hari yang akan tersedia di Boy-Android.</p>
-        </article>
-        <article class="tile">
-          <div class="symbol" aria-hidden="true">⚙</div>
-          <h2>5</h2>
-          <p>Kelola preferensi dan keamanan akunmu melalui halaman Settings.</p>
-          <p style="margin-top:12px"><a href="settings.html" style="color:#64b5ff;font-weight:700">Buka Settings →</a></p>
-        </article>
+        <article class="tile"><h2>Beranda</h2></article>
+        <article class="tile"><h2>2</h2></article>
+        <article class="tile"><h2>3</h2></article>
+        <article class="tile"><h2>4</h2></article>
+        <article class="tile"><h2>5</h2></article>
       </section>
+      <span id="approvalText" class="tile-status" aria-hidden="true"></span>
       <div class="notice" id="message" role="status">Memeriksa sesi login dan izin akun...</div>
     </main>
     <footer>© <span id="year"></span> Boy-Android</footer>
