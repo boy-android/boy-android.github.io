@@ -474,10 +474,10 @@
         });
         if (error) throw error;
         if (data.session) {
-          showMessage("Akun berhasil dibuat! Mengarahkan ke halaman akun...");
+          showMessage("Akun berhasil dibuat. Memeriksa status persetujuan...");
           window.location.href = "dashboard.html";
         } else {
-          showMessage("Pendaftaran berhasil dikirim. Buka email Anda dan klik tautan konfirmasi sebelum login. Periksa folder spam jika email belum terlihat.");
+          showMessage("Pendaftaran berhasil! Buka email dan klik tautan konfirmasi. Setelah itu, akun Anda akan menunggu persetujuan admin sebelum dashboard dapat diakses. Periksa folder spam jika email belum terlihat.");
           form.reset();
         }
       } catch (error) {
