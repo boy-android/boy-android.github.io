@@ -615,7 +615,11 @@
 
   </main>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
+    const SUPABASE_URL = "https://ynohxhmcyoqkupxbqxhn.supabase.co";
+    const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_t0pDUhdqe6RikCmVcYRvjg_vmSahQF7";
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
     const form = document.getElementById("loginForm");
     const password = document.getElementById("password");
     const togglePassword = document.getElementById("togglePassword");
@@ -645,26 +649,39 @@
       message.classList.add("show");
     }
 
-    // Form login demo
-    form.addEventListener("submit", function (event) {
+    function friendlyError(error) {
+      const text = (error?.message || "").toLowerCase();
+      if (text.includes("invalid login credentials")) return "Email atau password salah. Periksa kembali lalu coba lagi.";
+      if (text.includes("email not confirmed")) return "Email belum dikonfirmasi. Buka email dari Supabase lalu klik tautan konfirmasi.";
+      return error?.message || "Terjadi kesalahan. Coba lagi.";
+    }
+    form.addEventListener("submit", async (event) => {
       event.preventDefault();
-
-      showMessage(
-        "Tampilan login berfungsi, tetapi autentikasi belum dihubungkan. Hubungkan Supabase Auth atau backend untuk memverifikasi akun."
-      );
+      const button = form.querySelector('button[type="submit"]');
+      button.disabled = true; button.textContent = "Memproses...";
+      message.classList.remove("show");
+      try {
+        const { error } = await supabaseClient.auth.signInWithPassword({
+          email: document.getElementById("email").value.trim(), password: password.value
+        });
+        if (error) throw error;
+        showMessage("Login berhasil. Membuka halaman akun...");
+        window.location.href = "dashboard.html";
+      } catch (error) { showMessage(friendlyError(error)); }
+      finally { button.disabled = false; button.innerHTML = "Login &nbsp; →"; }
     });
-
-    // Lupa password
-    document.getElementById("forgotLink").addEventListener(
-      "click",
-      function (event) {
-        event.preventDefault();
-
-        showMessage(
-          "Fitur reset password belum diaktifkan. Hubungkan layanan autentikasi untuk menggunakannya."
-        );
-      }
-    );
+    document.getElementById("forgotLink").addEventListener("click", async (event) => {
+      event.preventDefault();
+      const email = document.getElementById("email").value.trim();
+      if (!email) { showMessage("Masukkan email terlebih dahulu, lalu klik Lupa password?"); document.getElementById("email").focus(); return; }
+      try {
+        const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+          redirectTo: "https://boy-android.github.io/reset-password.html"
+        });
+        if (error) throw error;
+        showMessage("Jika email terdaftar, tautan reset password akan dikirim. Periksa kotak masuk dan folder spam.");
+      } catch (error) { showMessage(friendlyError(error)); }
+    });
   </script>
 </body>
 </html>

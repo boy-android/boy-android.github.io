@@ -401,7 +401,11 @@
 
   </main>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
+    const SUPABASE_URL = "https://ynohxhmcyoqkupxbqxhn.supabase.co";
+    const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_t0pDUhdqe6RikCmVcYRvjg_vmSahQF7";
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
     document.getElementById("year").textContent =
       new Date().getFullYear();
 
@@ -450,21 +454,36 @@
       );
     });
 
-    // Form pendaftaran demo
-    form.addEventListener("submit", (event) => {
+    form.addEventListener("submit", async (event) => {
       event.preventDefault();
-
       if (password.value !== confirmPassword.value) {
-        confirmPassword.setCustomValidity("Password tidak cocok.");
-        confirmPassword.reportValidity();
-        return;
+        confirmPassword.setCustomValidity("Password tidak cocok."); confirmPassword.reportValidity(); return;
       }
-
       confirmPassword.setCustomValidity("");
-
-      showMessage(
-        "Form berhasil divalidasi, tetapi akun belum dibuat. Hubungkan Supabase Auth atau backend agar pendaftaran dapat menyimpan akun dengan aman."
-      );
+      const button = form.querySelector('button[type="submit"]');
+      button.disabled = true; button.textContent = "Membuat akun...";
+      message.classList.remove("show");
+      try {
+        const { data, error } = await supabaseClient.auth.signUp({
+          email: document.getElementById("email").value.trim(),
+          password: password.value,
+          options: {
+            data: { full_name: document.getElementById("fullName").value.trim() },
+            emailRedirectTo: "https://boy-android.github.io/"
+          }
+        });
+        if (error) throw error;
+        if (data.session) {
+          showMessage("Akun berhasil dibuat! Mengarahkan ke halaman akun...");
+          window.location.href = "dashboard.html";
+        } else {
+          showMessage("Pendaftaran berhasil dikirim. Buka email Anda dan klik tautan konfirmasi sebelum login. Periksa folder spam jika email belum terlihat.");
+          form.reset();
+        }
+      } catch (error) {
+        const text = (error?.message || "").toLowerCase();
+        showMessage(text.includes("already registered") ? "Email ini sudah terdaftar. Silakan login atau gunakan email lain." : (error?.message || "Pendaftaran gagal. Silakan coba lagi."));
+      } finally { button.disabled = false; button.innerHTML = "Buat Akun &nbsp; →"; }
     });
   </script>
 </body>
