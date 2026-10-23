@@ -72,8 +72,8 @@
 
     .illustration {
       width: 230px;
-      height: 190px;
-      margin: 0 auto 30px;
+      height: 220px;
+      margin: 0 auto 24px;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -85,6 +85,13 @@
         #0b2455 60%,
         transparent 72%
       );
+    }
+
+    .welcome-logo {
+      width: 190px;
+      height: 190px;
+      object-fit: contain;
+      filter: drop-shadow(0 10px 22px #0006);
     }
 
     .laptop {
@@ -446,9 +453,14 @@
       }
 
       .illustration {
-        width: 155px;
-        height: 125px;
+        width: 150px;
+        height: 150px;
         margin-bottom: 22px;
+      }
+
+      .welcome-logo {
+        width: 138px;
+        height: 138px;
       }
 
       .laptop {
@@ -569,11 +581,8 @@
 
     <!-- BAGIAN KIRI -->
     <section class="welcome">
-      <div class="illustration" aria-hidden="true">
-        <div class="plant"></div>
-        <div class="laptop">
-          <div class="lock"></div>
-        </div>
+      <div class="illustration">
+        <img class="welcome-logo" src="boy-android-logo-transparent.png" alt="Logo Boy-Android">
       </div>
 
       <h1>Selamat <span>Datang!</span></h1>
