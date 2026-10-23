@@ -680,6 +680,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="device-lock.js"></script>
+  <script src="account-expiry.js"></script>
   <script>
     const SUPABASE_URL = "https://ynohxhmcyoqkupxbqxhn.supabase.co";
     const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_t0pDUhdqe6RikCmVcYRvjg_vmSahQF7";
@@ -725,10 +726,23 @@
       button.disabled = true; button.textContent = "Memproses...";
       message.classList.remove("show");
       try {
-        const { error } = await supabaseClient.auth.signInWithPassword({
+        const { data: signInData, error } = await supabaseClient.auth.signInWithPassword({
           email: document.getElementById("email").value.trim(), password: password.value
         });
         if (error) throw error;
+        const { data: access, error: accessError } = await supabaseClient
+          .from("user_access")
+          .select("status, expires_on")
+          .eq("user_id", signInData.user.id)
+          .maybeSingle();
+        if (accessError || !access) {
+          await supabaseClient.auth.signOut({ scope: "local" });
+          throw new Error("Status akun belum dapat diverifikasi. Coba lagi atau hubungi admin.");
+        }
+        if (window.BoyAccountExpiry.isExpired(access)) {
+          await supabaseClient.auth.signOut({ scope: "local" });
+          throw new Error(`Masa berlaku akun habis pada ${window.BoyAccountExpiry.formatDate(access.expires_on)}. Hubungi admin untuk memperpanjang akses.`);
+        }
         const lock = await window.BoyDeviceLock.claim(supabaseClient);
         if (!lock.allowed) {
           if (lock.reason === "occupied") throw new Error("Akun ini sedang digunakan di perangkat lain. Keluar dari perangkat tersebut terlebih dahulu.");

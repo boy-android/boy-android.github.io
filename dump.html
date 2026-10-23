@@ -7,6 +7,7 @@
   <title>DUMP | Boy-Android</title>
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <link rel="icon" type="image/png" href="boy-android-logo-transparent.png">
+  <link rel="stylesheet" href="account-expiry.css">
   <style>
     :root{color-scheme:dark;--bg:#06132f;--panel:rgba(5,19,47,.88);--line:#234b91;--muted:#9bb6e5;--blue:#1685ff;--blue2:#0754e9;--text:#f4f7ff}
     *{box-sizing:border-box}
@@ -103,6 +104,7 @@
     </header>
 
     <main>
+      <div id="expiryCountdown" class="expiry-countdown" role="status" aria-live="polite" hidden></div>
       <section class="hero">
         <div class="eyebrow">Dashboard DUMP</div>
         <h1>Selamat datang di DUMP</h1>
@@ -147,6 +149,7 @@
   <!-- Library resmi Supabase JS v2 dari CDN; diperlukan untuk autentikasi dan pemeriksaan persetujuan akun. -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="device-lock.js"></script>
+  <script src="account-expiry.js"></script>
   <script>
     const SUPABASE_URL = "https://ynohxhmcyoqkupxbqxhn.supabase.co";
     const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_t0pDUhdqe6RikCmVcYRvjg_vmSahQF7";
@@ -312,7 +315,7 @@
 
       const { data: access, error: accessError } = await supabaseClient
         .from("user_access")
-        .select("status")
+        .select("status, expires_on")
         .eq("user_id", user.id)
         .maybeSingle();
 
@@ -321,11 +324,17 @@
         messageEl.textContent = "Akses beranda belum dapat diverifikasi. Coba lagi nanti atau hubungi admin.";
         return;
       }
+      if (window.BoyAccountExpiry.isExpired(access)) {
+        approvalText.textContent = "Masa berlaku akun habis.";
+        messageEl.textContent = `Akun kedaluwarsa pada ${window.BoyAccountExpiry.formatDate(access.expires_on)}. Hubungi admin untuk memperpanjang akses.`;
+        return;
+      }
       if (access.status !== "approved") {
         approvalText.textContent = access.status === "rejected" ? "Akun ditolak." : "Menunggu persetujuan admin.";
         messageEl.textContent = "Akun ini belum disetujui untuk menggunakan fitur utama.";
         return;
       }
+      window.BoyAccountExpiry.mountCountdown(document.getElementById("expiryCountdown"), access.expires_on);
       approvalText.textContent = "Akun disetujui oleh admin.";
       loginSuccess.hidden = false;
       messageEl.hidden = true;

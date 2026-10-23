@@ -1,0 +1,25 @@
+.expiry-countdown {
+  width: fit-content;
+  max-width: 100%;
+  margin: 18px auto 0;
+  padding: 11px 20px;
+  border: 1px solid #398eff;
+  border-radius: 999px;
+  background: linear-gradient(100deg, #0b2b5b, #0b2045);
+  box-shadow: 0 8px 28px #0003;
+  color: #dceaff;
+  font-size: 14px;
+  font-weight: 750;
+  letter-spacing: .2px;
+  line-height: 1.5;
+  text-align: center;
+}
+.expiry-countdown[hidden] { display: none; }
+.expiry-countdown.is-expired {
+  border-color: #ff7d8b;
+  background: #572936;
+  color: #ffe1e4;
+}
+@media (max-width: 600px) {
+  .expiry-countdown { padding: 10px 14px; border-radius: 14px; font-size: 13px; }
+}
