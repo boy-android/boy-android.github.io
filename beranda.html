@@ -47,8 +47,8 @@
     .email{color:#fff;font-weight:700;overflow-wrap:anywhere}
     .tagline{margin:10px 0 0;color:#64b5ff;font-size:15px;font-weight:800;letter-spacing:.5px}
     .login-success{margin:10px 0 0;color:#9fe7b0;font-size:14px;font-weight:600;line-height:1.6}
-    .grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px;margin-top:22px;align-items:stretch;overflow-x:auto;padding-bottom:4px}
-    .tile{min-height:76px;padding:18px 12px;display:flex;align-items:center;justify-content:center;text-align:center;border:1px solid var(--line);border-radius:18px;background:var(--panel);box-shadow:0 18px 48px #0002;text-decoration:none;color:var(--text);transition:border-color .2s,transform .2s}.tile:hover{border-color:var(--blue);transform:translateY(-2px)}.tile h2{white-space:nowrap}.home-icon{width:22px;height:22px;display:block;fill:currentColor}#menuGrid .tile:first-child{width:65%;min-height:76px;height:auto;padding:18px 12px;justify-self:center;align-self:stretch;box-sizing:border-box}#menuGrid .tile:first-child .home-icon{width:22px;height:22px}
+    .grid{display:grid;grid-template-columns:114px repeat(4,minmax(140px,1fr));gap:16px;column-gap:16px;row-gap:16px;margin-top:22px;align-items:stretch;overflow-x:auto;padding-bottom:4px}
+    .tile{min-height:114px;padding:18px 12px;box-sizing:border-box;display:flex;align-items:center;justify-content:center;text-align:center;border:1px solid var(--line);border-radius:18px;background:var(--panel);box-shadow:0 18px 48px #0002;text-decoration:none;color:var(--text);transition:border-color .2s,transform .2s}.tile:hover{border-color:var(--blue);transform:translateY(-2px)}.tile h2{white-space:nowrap}.home-icon{width:22px;height:22px;display:block;fill:currentColor}#menuGrid .tile:first-child{width:114px;height:114px;min-height:114px;padding:18px 12px;justify-self:stretch;align-self:stretch;border-radius:18px}#menuGrid .tile:first-child .home-icon{width:22px;height:22px}
     h2{font-size:18px;margin:0}
     .tile-status{display:none}
     .notice{margin-top:22px;padding:16px 18px;border:1px solid #234b91;border-radius:14px;background:#071a3a;color:var(--muted);line-height:1.6;font-size:14px}
@@ -105,14 +105,11 @@
     <footer>© <span id="year"></span> Boy-Android</footer>
   </div>
 
+  <!-- Library resmi Supabase JS v2 dari CDN; diperlukan untuk autentikasi dan pemeriksaan persetujuan akun. -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     const SUPABASE_URL = "https://ynohxhmcyoqkupxbqxhn.supabase.co";
     const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_t0pDUhdqe6RikCmVcYRvjg_vmSahQF7";
-    if (!window.supabase || typeof window.supabase.createClient !== "function") {
-      document.getElementById("message").textContent = "Komponen autentikasi gagal dimuat. Periksa koneksi internet lalu muat ulang halaman.";
-      throw new Error("Supabase JavaScript client tidak tersedia");
-    }
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
     const emailEl = document.getElementById("userEmail");
     const approvalText = document.getElementById("approvalText");
