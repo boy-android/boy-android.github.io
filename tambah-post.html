@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#06132f">
+  <title>Tambah Post Kasus HP | Boy-Android</title>
+  <link rel="icon" type="image/png" href="boy-android-logo-transparent.png">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="device-lock.js"></script>
+  <script src="account-expiry.js"></script>
+  <style>
+    :root{color-scheme:dark;--bg:#06132f;--panel:#0b2045;--line:#234b91;--text:#f4f7ff;--muted:#9bb6e5;--blue:#1685ff;--red:#ff9ba5;--green:#45d6a2}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 12% 8%,#123d87,transparent 42%),linear-gradient(135deg,#06132f,#081d48 55%,#06132f);font:15px/1.55 "Segoe UI",Arial,sans-serif;color:var(--text)}.wrap{width:min(1040px,100%);margin:auto;padding:24px}.top{display:flex;align-items:center;gap:14px;padding-bottom:16px;border-bottom:1px solid #234b9166}.brand{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none;font-size:21px;font-weight:800}.brand img{width:50px;height:50px;object-fit:contain}.top .back{margin-left:auto;color:#b8d7ff;text-decoration:none;font-weight:700}.panel{margin-top:26px;padding:clamp(20px,4vw,34px);border:1px solid var(--line);border-radius:20px;background:#071a3aee;box-shadow:0 20px 60px #0003}.hidden{display:none!important}.muted{color:var(--muted)}h1{margin:0 0 8px;font-size:clamp(26px,4vw,36px)}h2{margin:0 0 8px;font-size:22px}.intro{margin:0 0 22px;color:var(--muted)}.status{margin:16px 0;padding:12px 14px;border:1px solid #234b91;border-radius:12px;background:#06132f;color:var(--muted);overflow-wrap:anywhere}.status.error{color:var(--red);border-color:#813c55}.status.success{color:var(--green);border-color:#25785f}form{display:grid;grid-template-columns:1fr 1fr;gap:16px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}label{font-weight:700;color:#dce8ff}input,select,textarea{width:100%;padding:11px 12px;border:1px solid #31558c;border-radius:10px;background:#06132f;color:var(--text);font:inherit}textarea{min-height:120px;resize:vertical}input:focus,select:focus,textarea:focus{outline:2px solid #1685ff66;border-color:var(--blue)}.hint{font-size:12px;color:var(--muted)}.check{display:flex;flex-direction:row;align-items:center;gap:10px;align-self:center}.check input{width:18px;height:18px;accent-color:var(--blue)}.buttons{grid-column:1/-1;display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:4px}button,.button{display:inline-flex;align-items:center;justify-content:center;padding:11px 17px;border:1px solid #1685ff;border-radius:11px;background:#1266d6;color:white;text-decoration:none;font:inherit;font-weight:750;cursor:pointer}button:disabled{opacity:.55;cursor:wait}.secondary{background:#102b55;border-color:#2a5da8}.footer{padding:26px 0 8px;text-align:center;color:#7795c8;font-size:12px}.preview{white-space:pre-wrap;color:var(--muted)}@media(max-width:680px){.wrap{padding:16px}.panel{padding:20px}form{grid-template-columns:1fr}.field.full,.buttons{grid-column:1}.top .back{font-size:13px}}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header class="top">
+      <a class="brand" href="beranda.html"><img src="boy-android-logo-transparent.png" alt=""><span>Boy-Android</span></a>
+      <a class="back" href="beranda.html">← Kembali ke beranda</a>
+    </header>
+    <div id="status" class="status" role="status" aria-live="polite">Memeriksa sesi admin…</div>
+
+    <section id="loginPanel" class="panel hidden">
+      <h1>Login Admin</h1>
+      <p class="intro">Masuk menggunakan akun admin Boy-Android untuk mengisi post.</p>
+      <form id="loginForm">
+        <div class="field full"><label for="loginEmail">Email</label><input id="loginEmail" type="email" autocomplete="username" required></div>
+        <div class="field full"><label for="loginPassword">Password</label><input id="loginPassword" type="password" autocomplete="current-password" required></div>
+        <div class="buttons"><button type="submit">Masuk</button></div>
+      </form>
+    </section>
+
+    <section id="postPanel" class="panel hidden">
+      <h1>Tambah Post Kasus HP</h1>
+      <p class="intro">Isi ringkasan kasus atau informasi perangkat. Post dapat disimpan sebagai draft atau langsung ditampilkan di beranda.</p>
+      <form id="postForm">
+        <div class="field full"><label for="title">Judul post</label><input id="title" maxlength="160" placeholder="Contoh: Redmi Note 10 tidak bisa masuk sistem" required></div>
+        <div class="field"><label for="category">Kategori</label><select id="category"><option>Kasus HP</option><option>DATA</option><option>DUMP</option><option>EMMC</option><option>FIX ERROR</option><option>Info</option></select></div>
+        <div class="field"><label for="device">Merek dan tipe HP</label><input id="device" maxlength="120" placeholder="Contoh: Xiaomi Redmi Note 10"></div>
+        <div class="field full"><label for="summary">Kronologi / ringkasan kasus</label><textarea id="summary" maxlength="2000" placeholder="Ceritakan gejala dan kondisi awal HP…" required></textarea><span class="hint">Ringkasan ini akan terlihat di kartu post pada beranda.</span></div>
+        <div class="field full"><label for="solution">Langkah penanganan dan hasil</label><textarea id="solution" maxlength="2000" placeholder="Tuliskan pemeriksaan, tindakan, dan hasilnya. Bagian ini akan digabungkan ke ringkasan post."></textarea></div>
+        <div class="field"><label for="imageUrl">URL gambar (opsional)</label><input id="imageUrl" type="url" placeholder="https://…"><span class="hint">Gunakan alamat gambar HTTPS yang bisa diakses publik.</span></div>
+        <div class="field"><label for="targetUrl">Tautan detail (opsional)</label><input id="targetUrl" type="url" placeholder="https://…"><span class="hint">Jika diisi, kartu post beranda dapat dibuka ke tautan ini.</span></div>
+        <label class="check"><input id="publishNow" type="checkbox"><span>Publikasikan sekarang</span></label>
+        <div class="buttons"><button id="saveButton" type="submit">Simpan post</button><button id="logoutButton" class="secondary" type="button">Keluar</button></div>
+      </form>
+    </section>
+    <footer class="footer">© <span id="year"></span> Boy-Android</footer>
+  </main>
+  <script>
+    const SUPABASE_URL='https://ynohxhmcyoqkupxbqxhn.supabase.co';
+    const SUPABASE_ANON_KEY='sb_publishable_t0pDUhdqe6RikCmVcYRvjg_vmSahQF7';
+    const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+    const $=id=>document.getElementById(id);
+    const statusBox=$('status');
+    function message(text,type=''){statusBox.textContent=text;statusBox.className='status'+(type?' '+type:'')}
+    function panel(id,show){$(id).classList.toggle('hidden',!show)}
+    async function checkAdmin(){
+      const {data:{session}}=await sb.auth.getSession();
+      if(!session){panel('loginPanel',true);panel('postPanel',false);message('Silakan login menggunakan akun admin.');return false}
+      const lock=await window.BoyDeviceLock.claim(sb);
+      if(!lock.allowed){await sb.auth.signOut({scope:'local'});panel('loginPanel',true);panel('postPanel',false);message(lock.reason==='occupied'?'Akun ini sedang digunakan di perangkat lain.':'Pemeriksaan perangkat gagal.', 'error');return false}
+      const {data:isAdmin,error:adminError}=await sb.rpc('ba_is_admin');
+      if(adminError||isAdmin!==true){panel('loginPanel',false);panel('postPanel',false);message(adminError?'Tidak dapat memeriksa hak admin: '+adminError.message:'Akun ini tidak terdaftar sebagai admin.','error');return false}
+      const {data:access,error:accessError}=await sb.from('user_access').select('status, expires_on').eq('user_id',session.user.id).maybeSingle();
+      if(accessError||!access||access.status!=='approved'||window.BoyAccountExpiry.isExpired(access)){panel('loginPanel',false);panel('postPanel',false);message('Akun admin harus disetujui dan masih berlaku.','error');return false}
+      panel('loginPanel',false);panel('postPanel',true);message('Login admin: '+(session.user.email||''));return true;
+    }
+    $('loginForm').addEventListener('submit',async event=>{event.preventDefault();const {error}=await sb.auth.signInWithPassword({email:$('loginEmail').value,password:$('loginPassword').value});if(error){message('Login gagal: '+error.message,'error');return}await checkAdmin()});
+    $('logoutButton').addEventListener('click',async()=>{await window.BoyDeviceLock.release(sb);await sb.auth.signOut({scope:'local'});await checkAdmin()});
+    $('postForm').addEventListener('submit',async event=>{
+      event.preventDefault();
+      const button=$('saveButton');button.disabled=true;button.textContent='Menyimpan…';
+      const device=$('device').value.trim();const story=$('summary').value.trim();const solution=$('solution').value.trim();
+      const sections=[];if(device)sections.push('Perangkat: '+device);sections.push('Kasus: '+story);if(solution)sections.push('Penanganan dan hasil: '+solution);
+      const post={title:$('title').value.trim(),summary:sections.join('\n\n'),category:$('category').value,image_url:$('imageUrl').value.trim()||null,target_url:$('targetUrl').value.trim()||null,is_published:$('publishNow').checked,published_at:new Date().toISOString()};
+      const {error}=await sb.from('site_posts').insert(post);
+      button.disabled=false;button.textContent='Simpan post';
+      if(error){message('Post gagal disimpan. Pastikan site-posts-admin-write.sql sudah dijalankan dan akses admin aktif. '+error.message,'error');return}
+      $('postForm').reset();message(post.is_published?'Post berhasil disimpan dan dipublikasikan.':'Post berhasil disimpan sebagai draft.','success');
+    });
+    $('year').textContent=new Date().getFullYear();
+    sb.auth.onAuthStateChange(()=>setTimeout(checkAdmin,0));
+    checkAdmin();
+  </script>
+</body>
+</html>
