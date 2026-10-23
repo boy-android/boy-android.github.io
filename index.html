@@ -477,6 +477,70 @@
       }
     }
 
+    /* ===== KHUSUS HP: TAMPILKAN KARTU LOGIN SAJA ===== */
+    @media (max-width: 600px) {
+      body {
+        min-height: 100svh;
+        padding: 18px 12px;
+        align-items: center;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 470px;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0;
+      }
+
+      .welcome {
+        display: none;
+      }
+
+      .login-card {
+        width: 100%;
+        padding: 28px 22px;
+        border-radius: 22px;
+      }
+
+      .brand {
+        gap: 12px;
+      }
+
+      .brand-icon {
+        width: 58px;
+        height: 58px;
+        flex-basis: 58px;
+      }
+
+      .brand h2 {
+        font-size: clamp(25px, 7vw, 32px);
+        letter-spacing: -0.8px;
+      }
+
+      .subtitle {
+        margin-bottom: 30px;
+        font-size: 15px;
+      }
+
+      .form-group label {
+        font-size: 15px;
+      }
+
+      .input-wrap input {
+        font-size: 16px;
+        padding: 16px 12px;
+      }
+
+      .options {
+        font-size: 13px;
+      }
+
+      .login-button,
+      .register-button {
+        min-height: 54px;
+      }
+    }
+
     @media (max-width: 380px) {
       body {
         padding: 22px 13px;
@@ -615,11 +679,7 @@
 
   </main>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    const SUPABASE_URL = "https://ynohxhmcyoqkupxbqxhn.supabase.co";
-    const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_t0pDUhdqe6RikCmVcYRvjg_vmSahQF7";
-    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
     const form = document.getElementById("loginForm");
     const password = document.getElementById("password");
     const togglePassword = document.getElementById("togglePassword");
@@ -649,39 +709,26 @@
       message.classList.add("show");
     }
 
-    function friendlyError(error) {
-      const text = (error?.message || "").toLowerCase();
-      if (text.includes("invalid login credentials")) return "Email atau password salah. Periksa kembali lalu coba lagi.";
-      if (text.includes("email not confirmed")) return "Email belum dikonfirmasi. Buka email dari Supabase lalu klik tautan konfirmasi.";
-      return error?.message || "Terjadi kesalahan. Coba lagi.";
-    }
-    form.addEventListener("submit", async (event) => {
+    // Form login demo
+    form.addEventListener("submit", function (event) {
       event.preventDefault();
-      const button = form.querySelector('button[type="submit"]');
-      button.disabled = true; button.textContent = "Memproses...";
-      message.classList.remove("show");
-      try {
-        const { error } = await supabaseClient.auth.signInWithPassword({
-          email: document.getElementById("email").value.trim(), password: password.value
-        });
-        if (error) throw error;
-        showMessage("Login berhasil. Membuka halaman akun...");
-        window.location.href = "dashboard.html";
-      } catch (error) { showMessage(friendlyError(error)); }
-      finally { button.disabled = false; button.innerHTML = "Login &nbsp; →"; }
+
+      showMessage(
+        "Tampilan login berfungsi, tetapi autentikasi belum dihubungkan. Hubungkan Supabase Auth atau backend untuk memverifikasi akun."
+      );
     });
-    document.getElementById("forgotLink").addEventListener("click", async (event) => {
-      event.preventDefault();
-      const email = document.getElementById("email").value.trim();
-      if (!email) { showMessage("Masukkan email terlebih dahulu, lalu klik Lupa password?"); document.getElementById("email").focus(); return; }
-      try {
-        const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
-          redirectTo: "https://boy-android.github.io/reset-password.html"
-        });
-        if (error) throw error;
-        showMessage("Jika email terdaftar, tautan reset password akan dikirim. Periksa kotak masuk dan folder spam.");
-      } catch (error) { showMessage(friendlyError(error)); }
-    });
+
+    // Lupa password
+    document.getElementById("forgotLink").addEventListener(
+      "click",
+      function (event) {
+        event.preventDefault();
+
+        showMessage(
+          "Fitur reset password belum diaktifkan. Hubungkan layanan autentikasi untuk menggunakannya."
+        );
+      }
+    );
   </script>
 </body>
 </html>
