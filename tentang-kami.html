@@ -1,8 +1,12 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="/theme-mode.js"></script>
+
 <meta name="theme-color" content="#06132f">
 <meta name="description" content="Tentang Boy-Android, portal dokumentasi dan referensi seputar smartphone Android.">
 <title>Tentang Kami | Boy-Android</title>
@@ -10,6 +14,8 @@
 <style>
 :root{color-scheme:dark;--muted:#9bb6e5;--blue:#1685ff;--line:#234b91;--panel:#071a3a;--text:#f4f7ff}*{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:"Segoe UI",Arial,sans-serif;color:var(--text);background:radial-gradient(ellipse at 12% 8%,#123d87,transparent 42%),linear-gradient(135deg,#06132f,#081d48 55%,#06132f)}.wrap{width:min(1100px,100%);margin:auto;padding:24px}.top{display:flex;align-items:center;gap:14px;padding-bottom:18px;border-bottom:1px solid #234b9166}.brand{display:flex;align-items:center;gap:12px;color:#fff;text-decoration:none;font-size:22px;font-weight:800}.brand img{width:58px;height:58px;object-fit:contain}.top .back{margin-left:auto;color:#b8d7ff;text-decoration:none;font-weight:700;padding:10px 14px;border:1px solid #2a5da8;border-radius:11px}.hero{margin:38px 0 28px;padding:clamp(26px,5vw,48px);border:1px solid var(--line);border-radius:24px;background:linear-gradient(125deg,#0c2d61dd,#05132fcc);box-shadow:0 20px 60px #0003}.eyebrow{color:#64b5ff;text-transform:uppercase;letter-spacing:2px;font-size:12px;font-weight:800}.hero h1{font-size:clamp(34px,6vw,54px);line-height:1.1;margin:12px 0}.hero p{max-width:760px;color:var(--muted);font-size:17px;line-height:1.8;margin:0}.section-title{font-size:24px;margin:34px 0 16px}.cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.service{padding:20px;border:1px solid var(--line);border-radius:16px;background:var(--panel)}.service .icon{display:grid;place-items:center;width:42px;height:42px;border-radius:12px;background:#0c3670;color:#8fc8ff;font-size:20px;font-weight:800}.service h3{margin:16px 0 8px;font-size:17px}.service p,.note p{margin:0;color:var(--muted);font-size:14px;line-height:1.7}.note{margin-top:22px;padding:22px;border:1px solid #2a5da8;border-radius:16px;background:#071a3a}.note h2{font-size:20px;margin:0 0 8px}.owner{margin-top:22px;padding:22px;border:1px solid var(--line);border-radius:16px;background:var(--panel)}.owner h2{font-size:20px;margin:0 0 12px}.owner-label{color:var(--muted);font-size:13px;margin-bottom:4px}.social-icons{display:flex;align-items:center;gap:14px}.social-icon{display:grid;place-items:center;width:48px;height:48px;border:1px solid #2a5da8;border-radius:13px;background:#0c2650;color:#d9e9ff;text-decoration:none;transition:transform .18s ease,border-color .18s ease}.social-icon:hover{transform:translateY(-2px);border-color:#1685ff}.social-icon svg{width:25px;height:25px;display:block}.social-icon.youtube{color:#ff3333}.social-icon.whatsapp{color:#39d98a}.social-icon.facebook{color:#4d9bff}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}.btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 18px;border-radius:12px;background:linear-gradient(100deg,#1685ff,#0754e9);color:#fff;text-decoration:none;font-weight:700}footer{text-align:center;color:#7795c8;padding:30px 0 12px;font-size:12px}@media(max-width:850px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:540px){.wrap{padding:16px}.cards{grid-template-columns:1fr}.top .back{font-size:13px;padding:9px}.brand{font-size:19px}.brand img{width:48px;height:48px}}
 </style>
+
+<link rel="stylesheet" href="/theme.css">
 </head>
 <body>
 <div class="wrap">
@@ -39,5 +45,6 @@
   <footer>© <span id="year"></span> Boy-Android</footer>
 </div>
 <script>document.getElementById('year').textContent=new Date().getFullYear();</script>
+  <script src="/pwa.js"></script>
 </body>
 </html>

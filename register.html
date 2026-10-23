@@ -2,8 +2,12 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="/theme-mode.js"></script>
+
   <meta name="theme-color" content="#06132f">
   <meta name="description" content="Daftar akun Boy-Android">
   <title>Daftar Akun | Boy-Android</title>
@@ -274,6 +278,8 @@
       }
     }
   </style>
+
+<link rel="stylesheet" href="/theme.css">
 </head>
 
 <body>
@@ -493,5 +499,6 @@
       } finally { button.disabled = false; button.innerHTML = "Buat Akun &nbsp; →"; }
     });
   </script>
+  <script src="/pwa.js"></script>
 </body>
 </html>

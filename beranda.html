@@ -1,8 +1,12 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=1100, initial-scale=1, minimum-scale=0.5, maximum-scale=5, user-scalable=yes">
+<script src="/theme-mode.js"></script>
+
   <meta name="theme-color" content="#06132f">
   <title>Beranda | Boy-Android</title>
   <meta name="referrer" content="strict-origin-when-cross-origin">
@@ -57,6 +61,8 @@
     footer{padding:30px 0 10px;color:#7795c8;font-size:12px;text-align:center}
     #message{color:#ffcf86}
   </style>
+
+<link rel="stylesheet" href="/theme.css">
 </head>
 <body>
   <aside class="sidebar" id="sidebar" hidden aria-label="Menu navigasi">
@@ -210,5 +216,6 @@
 
     initializeHome();
   </script>
+  <script src="/pwa.js"></script>
 </body>
 </html>

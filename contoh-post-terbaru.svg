@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="960" viewBox="0 0 1440 960" role="img" aria-labelledby="title desc">
+  <title id="title">Contoh bagian Post Terbaru di Beranda Boy-Android</title>
+  <desc id="desc">Mockup halaman Boy-Android dengan header biru tua, hitung mundur masa berlaku, sambutan, serta tiga kartu post terbaru.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0c2b61"/>
+      <stop offset=".52" stop-color="#06132f"/>
+      <stop offset="1" stop-color="#0a1b3e"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1685ff"/>
+      <stop offset="1" stop-color="#0754e9"/>
+    </linearGradient>
+    <linearGradient id="cardArt1" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#134fa0"/><stop offset="1" stop-color="#0a1d43"/>
+    </linearGradient>
+    <linearGradient id="cardArt2" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#125e70"/><stop offset="1" stop-color="#0a1d43"/>
+    </linearGradient>
+    <linearGradient id="cardArt3" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#62418c"/><stop offset="1" stop-color="#0a1d43"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="14" stdDeviation="16" flood-color="#000" flood-opacity=".24"/>
+    </filter>
+  </defs>
+  <rect width="1440" height="960" fill="url(#bg)"/>
+  <circle cx="1210" cy="95" r="260" fill="#1577eb" opacity=".08"/>
+  <circle cx="45" cy="630" r="300" fill="#2b75d1" opacity=".06"/>
+
+  <!-- Header -->
+  <g font-family="Segoe UI, Arial, sans-serif">
+    <rect x="70" y="38" width="1300" height="92" rx="20" fill="#081a3b" stroke="#244a83"/>
+    <circle cx="119" cy="84" r="29" fill="url(#accent)"/>
+    <text x="119" y="94" text-anchor="middle" fill="#fff" font-size="31" font-weight="800">B</text>
+    <text x="164" y="92" fill="#f4f7ff" font-size="25" font-weight="750">Boy-Android</text>
+    <rect x="383" y="57" width="302" height="54" rx="15" fill="#0b2b5b" stroke="#398eff"/>
+    <text x="534" y="91" text-anchor="middle" fill="#dceaff" font-size="16" font-weight="700">Sisa masa berlaku: 12 hari; 08 jam; 34 menit</text>
+    <rect x="934" y="57" width="296" height="54" rx="15" fill="#07132d" stroke="#244a83"/>
+    <text x="962" y="91" fill="#91a9d0" font-size="16">⌕</text>
+    <text x="990" y="91" fill="#718bb5" font-size="15">Cari fitur, menu, atau sesuatu...</text>
+    <circle cx="1290" cy="84" r="24" fill="#0d3470" stroke="#398eff"/>
+    <text x="1290" y="91" text-anchor="middle" fill="#fff" font-size="19" font-weight="700">D</text>
+  </g>
+
+  <!-- Greeting -->
+  <g font-family="Segoe UI, Arial, sans-serif">
+    <text x="86" y="200" fill="#64b5ff" font-size="14" font-weight="800" letter-spacing="3">DASHBOARD UTAMA</text>
+    <text x="86" y="261" fill="#f4f7ff" font-size="43" font-weight="800">Selamat datang di Boy-Android</text>
+    <text x="86" y="306" fill="#dceaff" font-size="24" font-weight="650">Software &amp; Hardware SmartPhone Solution</text>
+    <text x="86" y="348" fill="#9bb6e5" font-size="17">Halo, dimaswilly626@gmail.com. Selamat datang di website tercinta kita.</text>
+    <text x="86" y="385" fill="#64b5ff" font-size="15" font-weight="700">Real Tutorials for Everyday Use</text>
+    <rect x="1110" y="218" width="208" height="58" rx="16" fill="url(#accent)"/>
+    <text x="1214" y="254" text-anchor="middle" fill="#fff" font-size="16" font-weight="750">Akun disetujui ✓</text>
+  </g>
+
+  <!-- Section heading -->
+  <g font-family="Segoe UI, Arial, sans-serif">
+    <text x="86" y="478" fill="#f4f7ff" font-size="30" font-weight="800">Post Terbaru</text>
+    <text x="86" y="511" fill="#9bb6e5" font-size="16">Informasi, tutorial, dan berkas terbaru dari Boy-Android</text>
+    <text x="1316" y="491" text-anchor="end" fill="#78baff" font-size="15" font-weight="700">Lihat semua →</text>
+  </g>
+
+  <!-- Post cards -->
+  <g font-family="Segoe UI, Arial, sans-serif" filter="url(#shadow)">
+    <rect x="86" y="548" width="398" height="320" rx="22" fill="#091b3b" stroke="#244a83"/>
+    <rect x="102" y="564" width="366" height="145" rx="16" fill="url(#cardArt1)"/>
+    <rect x="126" y="585" width="92" height="105" rx="13" fill="#07132d" stroke="#5ba8ff" stroke-width="2"/>
+    <rect x="139" y="598" width="66" height="77" rx="7" fill="#123a77"/>
+    <circle cx="172" cy="683" r="3" fill="#86c5ff"/>
+    <path d="M246 674l32-42 25 23 33-46 47 65" fill="none" stroke="#79bdff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="338" cy="609" r="20" fill="#1685ff" opacity=".7"/>
+    <rect x="106" y="726" width="104" height="26" rx="13" fill="#103b79"/>
+    <text x="158" y="744" text-anchor="middle" fill="#9ecaff" font-size="12" font-weight="800">DUMP</text>
+    <text x="106" y="786" fill="#f4f7ff" font-size="20" font-weight="750">Firmware Redmi Note 13</text>
+    <text x="106" y="817" fill="#9bb6e5" font-size="14">Berkas dan informasi firmware siap diunduh.</text>
+    <text x="106" y="848" fill="#6e8bb9" font-size="13">23 Okt 2026</text>
+
+    <rect x="521" y="548" width="398" height="320" rx="22" fill="#091b3b" stroke="#244a83"/>
+    <rect x="537" y="564" width="366" height="145" rx="16" fill="url(#cardArt2)"/>
+    <rect x="570" y="590" width="300" height="91" rx="13" fill="#07132d" stroke="#3c9ca9"/>
+    <path d="M607 637h44l17-22 24 43 24-32 21 11h46" fill="none" stroke="#70e1d3" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="782" cy="616" r="7" fill="#95fff0"/>
+    <rect x="541" y="726" width="104" height="26" rx="13" fill="#12454e"/>
+    <text x="593" y="744" text-anchor="middle" fill="#8de2d7" font-size="12" font-weight="800">EMMC</text>
+    <text x="541" y="786" fill="#f4f7ff" font-size="20" font-weight="750">Panduan cek data EMMC</text>
+    <text x="541" y="817" fill="#9bb6e5" font-size="14">Langkah dasar membaca data chip dengan aman.</text>
+    <text x="541" y="848" fill="#6e8bb9" font-size="13">22 Okt 2026</text>
+
+    <rect x="956" y="548" width="398" height="320" rx="22" fill="#091b3b" stroke="#244a83"/>
+    <rect x="972" y="564" width="366" height="145" rx="16" fill="url(#cardArt3)"/>
+    <path d="M1155 584l62 23v40c0 30-23 48-62 62-39-14-62-32-62-62v-40z" fill="#152b55" stroke="#c4a0ff" stroke-width="3"/>
+    <path d="M1127 648l20 19 38-42" fill="none" stroke="#d9c3ff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="976" y="726" width="132" height="26" rx="13" fill="#3b2b5a"/>
+    <text x="1042" y="744" text-anchor="middle" fill="#d0b8ff" font-size="12" font-weight="800">FIX ERROR</text>
+    <text x="976" y="786" fill="#f4f7ff" font-size="20" font-weight="750">Atasi bootloop Android</text>
+    <text x="976" y="817" fill="#9bb6e5" font-size="14">Diagnosis awal sebelum melakukan flashing.</text>
+    <text x="976" y="848" fill="#6e8bb9" font-size="13">20 Okt 2026</text>
+  </g>
+
+  <g font-family="Segoe UI, Arial, sans-serif">
+    <text x="720" y="922" text-anchor="middle" fill="#617da9" font-size="13">Contoh tampilan — isi post dan tanggal hanya ilustrasi</text>
+  </g>
+</svg>

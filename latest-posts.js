@@ -83,11 +83,11 @@
       .limit(3);
 
     if (error) {
-      showMessage(container, "Post terbaru belum dapat dimuat. Pastikan tabel post sudah disiapkan.", true);
+      showMessage(container, "Post terbaru belum dapat dimuat. Pastikan tabel post sudah disiapkan di Supabase.", true);
       return;
     }
     if (!data || data.length === 0) {
-      showMessage(container, "Belum ada post yang dipublikasikan. Post akan tampil di sini setelah ditambahkan.");
+      showMessage(container, "Belum ada post yang dipublikasikan. Post akan tampil di sini setelah ditambahkan melalui Supabase.");
       return;
     }
     container.replaceChildren(...data.map(createPostCard));
