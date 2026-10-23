@@ -1,0 +1,83 @@
+html.light-theme {
+  color-scheme: light;
+  --bg: #f4f6f9;
+  --panel: #fff;
+  --line: #d7dee8;
+  --muted: #536273;
+  --text: #172b49;
+}
+html.light-theme body,
+body.light {
+  color: #172b49 !important;
+  background: #f4f6f9 !important;
+}
+html.light-theme :is(h1, h2, h3, h4, strong, b, .brand, .sidebar-brand, .sidebar-close, .value),
+body.light :is(h1, h2, h3, h4, strong, b, .brand, .sidebar-brand, .sidebar-close, .value) {
+  color: #10203b !important;
+}
+html.light-theme :is(p, .muted, .desc, .lead, .hint, .label, .intro, .field-help, footer, .eyebrow, .owner-label, .preview, .subtitle, .catalog-subtitle),
+body.light :is(p, .muted, .desc, .lead, .hint, .label, .intro, .field-help, footer, .eyebrow, .owner-label, .preview, .subtitle, .catalog-subtitle) {
+  color: #536987 !important;
+}
+html.light-theme :is(.card, .panel, .profile-card, .service, .owner, .note, .notice, .status, .msg, .profile-menu, .sidebar, .message, .register-card, .input-wrap, .catalog, .model-card, .model-detail, .resource-card, .detail-note, .post-card),
+body.light :is(.card, .panel, .profile-card, .service, .owner, .note, .notice, .status, .msg, .profile-menu, .sidebar, .message, .register-card, .input-wrap, .catalog, .model-card, .model-detail, .resource-card, .detail-note, .post-card) {
+  color: #172b49 !important;
+  background: #fff !important;
+  border-color: #c9d8ec !important;
+  box-shadow: 0 12px 36px #26456b12 !important;
+}
+html.light-theme .wrap .hero,
+body.light .wrap .hero {
+  color: #172b49 !important;
+  background: #fff !important;
+  border-color: #c9d8ec !important;
+  box-shadow: 0 12px 36px #26456b12 !important;
+}
+html.light-theme :is(.tile, .profile-input, .search-box, input:not([type="checkbox"]), select, textarea),
+body.light :is(.tile, .profile-input, .search-box, input:not([type="checkbox"]), select, textarea) {
+  color: #172b49 !important;
+  background: #fff !important;
+  border-color: #b8cbe4 !important;
+}
+html.light-theme .tile.active,
+body.light .tile.active { background: #e5efff !important; }
+html.light-theme .model-card.active,
+body.light .model-card.active,
+html.light-theme .model-card:hover,
+body.light .model-card:hover { background: #eaf1fa !important; }
+html.light-theme .filter-button.active,
+body.light .filter-button.active { color: #17355e !important; background: #eaf1fa !important; border-color: #a9bdd8 !important; }
+html.light-theme .pill,
+body.light .pill { color: #164678 !important; background: #e6f0ff !important; }
+html.light-theme .post-category,
+body.light .post-category { color: #164678 !important; background: #e6f0ff !important; border-color: #c2d3e9 !important; }
+html.light-theme .post-cover,
+body.light .post-cover { color: #27415f !important; background: #e6edf5 !important; }
+html.light-theme .email,
+body.light .email { color: #10203b !important; }
+html.light-theme .error,
+html.light-theme .status.error,
+body.light .error,
+body.light .status.error { color: #b42336 !important; }
+html.light-theme :is(.sample-badge, .filter-button),
+body.light :is(.sample-badge, .filter-button) { color: #604512 !important; background: #fff3d4 !important; border-color: #e6c779 !important; }
+html.light-theme :is(.profile-menu a, .profile-menu button),
+body.light :is(.profile-menu a, .profile-menu button) { color: #17355e !important; }
+html.light-theme .sidebar-link,
+body.light .sidebar-link { color: #fff !important; background: #1768bd !important; border-color: #1768bd !important; }
+html.light-theme .sidebar-foot,
+body.light .sidebar-foot { color: #536987 !important; }
+html.light-theme .button:not(.primary):not(.btn),
+body.light .button:not(.primary):not(.btn) { color: #0754b8 !important; background: #fff !important; border-color: #7da9df !important; }
+html.light-theme a:not(.button):not(.btn):not(.social-icon):not(.sidebar-link),
+body.light a:not(.button):not(.btn):not(.social-icon):not(.sidebar-link) { color: #0754b8; }
+html.light-theme :is(.avatar, .service .icon, .social-icon),
+body.light :is(.avatar, .service .icon, .social-icon) { background: #e6f0ff !important; }
+html.light-theme :is(.top, header, .field),
+body.light :is(.top, header, .field) { border-color: #c9d8ec !important; }
+html.light-theme .detail-row strong,
+body.light .detail-row strong { color: #172b49 !important; }
+html.light-theme table th,
+body.light table th { color: #536987 !important; }
+html.light-theme tbody tr:hover,
+body.light tbody tr:hover { background: #eff5ff !important; }

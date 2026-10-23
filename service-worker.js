@@ -1,9 +1,11 @@
-const CACHE_NAME = "boy-android-pwa-v2";
+const CACHE_NAME = "boy-android-pwa-v4";
 const OFFLINE_URL = "/offline.html";
 const APP_ASSETS = [
   OFFLINE_URL,
   "/manifest.webmanifest",
   "/pwa.js",
+  "/theme-mode.js",
+  "/theme.css",
   "/boy-android-logo-transparent.png",
   "/icons/icon-192.png",
   "/icons/icon-512.png",
