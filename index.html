@@ -717,7 +717,7 @@
     function friendlyError(error) {
       const text = (error?.message || "").toLowerCase();
       if (text.includes("invalid login credentials")) return "Email atau password salah. Periksa kembali lalu coba lagi.";
-      if (text.includes("email not confirmed")) return "Email belum dikonfirmasi. Buka email dari Supabase lalu klik tautan konfirmasi.";
+      if (text.includes("email not confirmed")) return "Email belum dikonfirmasi. Silahkan buka email email anda lalu klik tautan konfirmasi.";
       return error?.message || "Terjadi kesalahan. Coba lagi.";
     }
     form.addEventListener("submit", async (event) => {
