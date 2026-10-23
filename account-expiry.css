@@ -14,6 +14,14 @@
   line-height: 1.5;
   text-align: center;
 }
+.expiry-countdown--header {
+  flex: 0 1 auto;
+  margin: 0 0 0 12px;
+  padding: 8px 12px;
+  border-radius: 14px;
+  font-size: 12px;
+  white-space: nowrap;
+}
 .expiry-countdown[hidden] { display: none; }
 .expiry-countdown.is-expired {
   border-color: #ff7d8b;
@@ -22,4 +30,5 @@
 }
 @media (max-width: 600px) {
   .expiry-countdown { padding: 10px 14px; border-radius: 14px; font-size: 13px; }
+  .expiry-countdown--header { margin-left: 8px; padding: 7px 9px; font-size: 11px; }
 }
