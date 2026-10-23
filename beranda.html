@@ -8,6 +8,7 @@
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <link rel="icon" type="image/png" href="boy-android-logo-transparent.png">
   <link rel="stylesheet" href="account-expiry.css">
+  <link rel="stylesheet" href="latest-posts.css">
   <style>
     :root{color-scheme:dark;--bg:#06132f;--panel:rgba(5,19,47,.88);--line:#234b91;--muted:#9bb6e5;--blue:#1685ff;--blue2:#0754e9;--text:#f4f7ff}
     *{box-sizing:border-box}
@@ -101,6 +102,18 @@
         <a class="tile" href="fix-error.html"><h2>FIX ERROR</h2></a>
         <a class="tile" href="data.html"><h2>DATA</h2></a>
       </section>
+      <section class="latest-posts" id="latest-posts" aria-labelledby="latestPostsTitle">
+        <div class="latest-posts-heading">
+          <div>
+            <h2 id="latestPostsTitle">Post Terbaru</h2>
+            <p>Informasi, tutorial, dan berkas terbaru dari Boy-Android</p>
+          </div>
+          <span class="latest-posts-count">3 post terbaru</span>
+        </div>
+        <div id="latestPosts" class="post-grid" aria-live="polite">
+          <div class="posts-empty">Memuat post terbaru...</div>
+        </div>
+      </section>
       <span id="approvalText" class="tile-status" aria-hidden="true"></span>
       <div class="notice" id="message" role="status">Memeriksa sesi login dan izin akun...</div>
     </main>
@@ -111,6 +124,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="device-lock.js"></script>
   <script src="account-expiry.js"></script>
+  <script src="latest-posts.js"></script>
   <script>
     const SUPABASE_URL = "https://ynohxhmcyoqkupxbqxhn.supabase.co";
     const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_t0pDUhdqe6RikCmVcYRvjg_vmSahQF7";
@@ -177,6 +191,7 @@
       approvalText.textContent = "Akun disetujui oleh admin.";
       loginSuccess.hidden = false;
       messageEl.hidden = true;
+      await window.BoyLatestPosts.load(supabaseClient);
     }
 
     logoutButton.addEventListener("click", async () => {
