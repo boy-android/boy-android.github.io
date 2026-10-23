@@ -1,13 +1,190 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=1100, initial-scale=1, minimum-scale=0.5, maximum-scale=5, user-scalable=yes">
-<meta name="theme-color" content="#06132f">
-<title>DUMP | Boy-Android</title>
-<style>
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:radial-gradient(ellipse at 12% 8%,#123d87,transparent 42%),radial-gradient(ellipse at 90% 75%,#102c63,transparent 38%),linear-gradient(135deg,#06132f,#081d48 55%,#06132f);color:#f4f7ff;font-family:"Segoe UI",Arial,sans-serif}body{min-width:760px;min-height:100vh}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1100, initial-scale=1, minimum-scale=0.5, maximum-scale=5, user-scalable=yes">
+  <meta name="theme-color" content="#06132f">
+  <title>DUMP | Boy-Android</title>
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <link rel="icon" type="image/png" href="boy-android-logo-transparent.png">
+  <style>
+    :root{color-scheme:dark;--bg:#06132f;--panel:rgba(5,19,47,.88);--line:#234b91;--muted:#9bb6e5;--blue:#1685ff;--blue2:#0754e9;--text:#f4f7ff}
+    *{box-sizing:border-box}
+    body{margin:0;min-width:760px;min-height:100vh;font-family:"Segoe UI",Arial,sans-serif;color:var(--text);background:radial-gradient(ellipse at 12% 8%,#123d87,transparent 42%),radial-gradient(ellipse at 90% 75%,#102c63,transparent 38%),linear-gradient(135deg,#06132f,#081d48 55%,#06132f)}
+    a,button{font:inherit}
+    .shell{width:min(1100px,100%);margin:auto;padding:24px;transition:margin-left .25s ease}
+    .brand img{width:64px;height:64px;object-fit:contain}
+    .brand{font-size:22px}
+    .top-tools{display:flex;align-items:center;gap:12px;flex:1;justify-content:flex-end}
+    .search-box{width:min(380px,100%);padding:12px 16px;border:1px solid #2a5da8;border-radius:14px;background:#071a3a;color:#fff;outline:none}
+    .search-box:focus{border-color:#1685ff;box-shadow:0 0 0 3px #1685ff22}
+    .profile-wrap{position:relative}
+    .profile-button{width:48px;height:48px;border-radius:50%;border:1px solid #398eff;background:#0d3470;color:#fff;cursor:pointer;display:grid;place-items:center;font-size:22px}
+    .profile-menu{position:absolute;right:0;top:58px;width:220px;padding:10px;background:#0b2045;border:1px solid #2a5da8;border-radius:14px;box-shadow:0 18px 40px #0008;z-index:20}
+    .profile-menu[hidden],.sidebar[hidden]{display:none}
+    .profile-menu a,.profile-menu button{display:block;width:100%;text-align:left;padding:11px 12px;border:0;border-radius:9px;background:transparent;color:#eef5ff;text-decoration:none;cursor:pointer}
+    .profile-menu a:hover,.profile-menu button:hover{background:#104783}
+    .profile-email{padding:8px 12px 12px;color:#9bb6e5;font-size:12px;overflow-wrap:anywhere;border-bottom:1px solid #234b91;margin-bottom:6px}
+    .sidebar{position:fixed;z-index:50;left:0;top:0;bottom:0;width:8cm;max-width:85vw;padding:22px 18px;background:linear-gradient(180deg,#0b2450,#06132f);border-right:1px solid #2a5da8;box-shadow:18px 0 50px #0007;display:flex;flex-direction:column;gap:18px}
+    .sidebar-head{display:flex;align-items:center;justify-content:space-between}
+    .sidebar-brand{display:flex;align-items:center;flex-direction:column;gap:8px;padding:18px 0;color:#fff;text-decoration:none;font-weight:800;font-size:21px}
+    .sidebar-brand img{width:112px;height:112px;object-fit:contain}
+    .sidebar-link{display:flex;align-items:center;gap:12px;padding:14px;border-radius:12px;color:#fff;text-decoration:none;background:#104783;border:1px solid #176ac2}
+    .sidebar-link:hover{background:#1559a0}
+    .sidebar-close{border:0;background:transparent;color:#fff;font-size:24px;cursor:pointer}
+    .sidebar-foot{margin-top:auto;color:#7795c8;font-size:12px;text-align:center}
+    .search-results{margin-top:8px;color:#9bb6e5;font-size:13px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:12px 0 28px;border-bottom:1px solid #234b9166}
+    .brand{display:flex;align-items:center;gap:12px;color:var(--text);text-decoration:none;font-weight:800;font-size:20px;letter-spacing:.2px}
+    .brand img{width:48px;height:48px;object-fit:contain}
+    .header-actions{display:flex;gap:10px;flex-wrap:wrap}
+    .button{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 16px;border-radius:12px;text-decoration:none;font-weight:700;cursor:pointer;border:1px solid #1685ff;color:#8fc8ff;background:transparent}
+    .button.primary{background:linear-gradient(100deg,var(--blue),var(--blue2));color:white;border-color:transparent}
+    .hero{padding:44px 0 30px}
+    .eyebrow{color:#64b5ff;text-transform:uppercase;font-size:12px;letter-spacing:2px;font-weight:800}
+    h1{font-size:clamp(30px,5vw,46px);line-height:1.12;margin:10px 0 12px;letter-spacing:-.8px}
+    .lead{color:var(--muted);font-size:16px;line-height:1.75;max-width:680px;margin:0}
+    .email{color:#fff;font-weight:700;overflow-wrap:anywhere}
+    .tagline{margin:10px 0 0;color:#64b5ff;font-size:15px;font-weight:800;letter-spacing:.5px}
+    .login-success{margin:10px 0 0;color:#9fe7b0;font-size:14px;font-weight:600;line-height:1.6}
+    .grid{display:grid;grid-template-columns:76px repeat(4,minmax(140px,1fr));gap:16px;column-gap:16px;row-gap:16px;margin-top:22px;align-items:stretch;overflow-x:auto;padding-bottom:4px}
+    .tile{min-height:76px;padding:10px 12px;box-sizing:border-box;display:flex;align-items:center;justify-content:center;text-align:center;border:1px solid var(--line);border-radius:18px;background:var(--panel);box-shadow:0 18px 48px #0002;text-decoration:none;color:var(--text);transition:border-color .2s,transform .2s}.tile:hover{border-color:var(--blue);transform:translateY(-2px)}.tile h2{white-space:nowrap}.home-icon{width:22px;height:22px;display:block;fill:currentColor}#menuGrid .tile:first-child{width:76px;height:76px;min-height:76px;padding:10px 8px;justify-self:stretch;align-self:stretch;border-radius:18px}#menuGrid .tile:first-child .home-icon{width:22px;height:22px}
+    .tile.active{border-color:var(--blue);background:#0b2b5b;box-shadow:0 0 0 3px #1685ff35,0 18px 48px #0002}h2{font-size:18px;margin:0}
+    .tile-status{display:none}
+    .notice{margin-top:22px;padding:16px 18px;border:1px solid #234b91;border-radius:14px;background:#071a3a;color:var(--muted);line-height:1.6;font-size:14px}
+    footer{padding:30px 0 10px;color:#7795c8;font-size:12px;text-align:center}
+    #message{color:#ffcf86}
+  </style>
 </head>
-<body></body>
+<body>
+  <aside class="sidebar" id="sidebar" hidden aria-label="Menu navigasi">
+    <div class="sidebar-head"><span class="eyebrow">MENU NAVIGASI</span><button class="sidebar-close" id="closeSidebar" aria-label="Tutup menu">×</button></div>
+    <a class="sidebar-brand" href="beranda.html"><img src="boy-android-logo-transparent.png" alt="Logo Boy-Android"><span>Boy-Android</span></a>
+    <a class="sidebar-link" href="tentang-kami.html"><span aria-hidden="true">▣</span><strong>Tentang Kami</strong><span style="margin-left:auto">›</span></a>
+    <div class="sidebar-foot">© <span id="sideYear"></span> Boy-Android</div>
+  </aside>
+  <div class="shell">
+    <header>
+      <a class="brand" href="#" id="brandButton" aria-label="Buka menu Boy-Android">
+        <img src="boy-android-logo-transparent.png" alt="Logo Boy-Android"><span>Boy-Android</span>
+      </a>
+      <div class="top-tools">
+        <input class="search-box" id="siteSearch" type="search" placeholder="Cari fitur, menu, atau sesuatu..." aria-label="Cari menu">
+        <div class="profile-wrap">
+          <button class="profile-button" id="profileButton" type="button" aria-label="Buka menu profil" aria-expanded="false">♙</button>
+          <div class="profile-menu" id="profileMenu" hidden>
+            <div class="profile-email" id="menuEmail">Akun Boy-Android</div>
+            <a href="profil-akun.html">Profil akun</a>
+            <a href="settings.html">Settings</a>
+            <button id="logoutButton" type="button">Keluar</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="eyebrow">Dashboard DUMP</div>
+        <h1>Selamat datang di DUMP</h1>
+        <h1>DUMP | Boy-Android</h1>
+        <p class="lead">Halo, <span class="email" id="userEmail">memeriksa akun...</span>. selamat datang di halaman DUMP</p>
+        <p class="tagline">DUMP | Boy-Android</p>
+        <p class="login-success" id="loginSuccess" role="status" hidden>Halaman DUMP siap digunakan!</p>
+      </section>
+
+      <section class="grid" id="menuGrid" aria-label="Menu beranda">
+        <a class="tile" href="beranda.html" aria-label="Beranda" title="Beranda"><svg class="home-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 2.5 11h2.4v9h5.2v-5.8h3.8V20h5.2v-9h2.4L12 3z"/></svg></a>
+        <a class="tile active" href="dump.html" aria-current="page"><h2>DUMP</h2></a>
+        <a class="tile" href="emmc.html"><h2>EMMC</h2></a>
+        <a class="tile" href="fix-error.html"><h2>FIX ERROR</h2></a>
+        <a class="tile" href="data.html"><h2>DATA</h2></a>
+      </section>
+      <span id="approvalText" class="tile-status" aria-hidden="true"></span>
+      <div class="notice" id="message" role="status">Memeriksa sesi login dan izin akun...</div>
+    </main>
+    <footer>© <span id="year"></span> Boy-Android</footer>
+  </div>
+
+  <!-- Library resmi Supabase JS v2 dari CDN; diperlukan untuk autentikasi dan pemeriksaan persetujuan akun. -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="device-lock.js"></script>
+  <script>
+    const SUPABASE_URL = "https://ynohxhmcyoqkupxbqxhn.supabase.co";
+    const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_t0pDUhdqe6RikCmVcYRvjg_vmSahQF7";
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+    const emailEl = document.getElementById("userEmail");
+    const approvalText = document.getElementById("approvalText");
+    const messageEl = document.getElementById("message");
+    const loginSuccess = document.getElementById("loginSuccess");
+    const logoutButton = document.getElementById("logoutButton");
+    const sidebar = document.getElementById("sidebar");
+    const profileButton = document.getElementById("profileButton");
+    const profileMenu = document.getElementById("profileMenu");
+    const menuEmail = document.getElementById("menuEmail");
+    const searchInput = document.getElementById("siteSearch");
+    const year = new Date().getFullYear();
+    document.getElementById("year").textContent = year;
+    document.getElementById("sideYear").textContent = year;
+    document.getElementById("brandButton").addEventListener("click", (event) => { event.preventDefault(); sidebar.hidden = !sidebar.hidden; profileMenu.hidden = true; });
+    document.getElementById("closeSidebar").addEventListener("click", () => sidebar.hidden = true);
+    profileButton.addEventListener("click", () => { profileMenu.hidden = !profileMenu.hidden; profileButton.setAttribute("aria-expanded", String(!profileMenu.hidden)); sidebar.hidden = true; });
+    document.addEventListener("click", (event) => { if (!event.target.closest(".profile-wrap")) { profileMenu.hidden = true; profileButton.setAttribute("aria-expanded", "false"); } });
+    searchInput.addEventListener("input", () => {
+      const query = searchInput.value.trim().toLocaleLowerCase("id");
+      document.querySelectorAll("#menuGrid .tile").forEach(tile => { tile.hidden = query && !tile.innerText.toLocaleLowerCase("id").includes(query); });
+    });
+
+    async function initializeHome() {
+      const { data: sessionData, error: sessionError } = await supabaseClient.auth.getSession();
+      if (sessionError || !sessionData.session) {
+        window.location.replace("index.html");
+        return;
+      }
+      const deviceLock = await window.BoyDeviceLock.claim(supabaseClient);
+      if (!deviceLock.allowed) {
+        window.location.replace("index.html");
+        return;
+      }
+      const user = sessionData.session.user;
+      emailEl.textContent = user.email || "Pengguna Boy-Android";
+      menuEmail.textContent = user.email || "Pengguna Boy-Android";
+
+      const { data: access, error: accessError } = await supabaseClient
+        .from("user_access")
+        .select("status")
+        .eq("user_id", user.id)
+        .maybeSingle();
+
+      if (accessError || !access) {
+        approvalText.textContent = "Status akun belum dapat diverifikasi.";
+        messageEl.textContent = "Akses beranda belum dapat diverifikasi. Coba lagi nanti atau hubungi admin.";
+        return;
+      }
+      if (access.status !== "approved") {
+        approvalText.textContent = access.status === "rejected" ? "Akun ditolak." : "Menunggu persetujuan admin.";
+        messageEl.textContent = "Akun ini belum disetujui untuk menggunakan fitur utama.";
+        return;
+      }
+      approvalText.textContent = "Akun disetujui oleh admin.";
+      loginSuccess.hidden = false;
+      messageEl.hidden = true;
+    }
+
+    logoutButton.addEventListener("click", async () => {
+      logoutButton.disabled = true;
+      logoutButton.textContent = "Keluar...";
+      await window.BoyDeviceLock.release(supabaseClient);
+      const { error } = await supabaseClient.auth.signOut({ scope: "local" });
+      if (error) {
+        messageEl.textContent = "Gagal keluar: " + error.message;
+        logoutButton.disabled = false;
+        logoutButton.textContent = "Keluar";
+        return;
+      }
+      window.location.replace("index.html");
+    });
+
+    initializeHome();
+  </script>
+</body>
 </html>
