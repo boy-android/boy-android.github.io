@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=1100, initial-scale=1, minimum-scale=0.5, maximum-scale=5, user-scalable=yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#06132f">
   <title>FIX ERROR | Boy-Android</title>
   <meta name="referrer" content="strict-origin-when-cross-origin">
@@ -10,7 +10,7 @@
   <style>
     :root{color-scheme:dark;--bg:#06132f;--panel:rgba(5,19,47,.88);--line:#234b91;--muted:#9bb6e5;--blue:#1685ff;--blue2:#0754e9;--text:#f4f7ff}
     *{box-sizing:border-box}
-    body{margin:0;min-width:760px;min-height:100vh;font-family:"Segoe UI",Arial,sans-serif;color:var(--text);background:radial-gradient(ellipse at 12% 8%,#123d87,transparent 42%),radial-gradient(ellipse at 90% 75%,#102c63,transparent 38%),linear-gradient(135deg,#06132f,#081d48 55%,#06132f)}
+    body{margin:0;min-height:100vh;font-family:"Segoe UI",Arial,sans-serif;color:var(--text);background:radial-gradient(ellipse at 12% 8%,#123d87,transparent 42%),radial-gradient(ellipse at 90% 75%,#102c63,transparent 38%),linear-gradient(135deg,#06132f,#081d48 55%,#06132f)}
     a,button{font:inherit}
     .shell{width:min(1100px,100%);margin:auto;padding:24px;transition:margin-left .25s ease}
     .brand img{width:64px;height:64px;object-fit:contain}
@@ -52,6 +52,25 @@
     .tile.active{border-color:var(--blue);background:#0b2b5b;box-shadow:0 0 0 3px #1685ff35,0 18px 48px #0002}h2{font-size:18px;margin:0}
     .tile-status{display:none}
     .notice{margin-top:22px;padding:16px 18px;border:1px solid #234b91;border-radius:14px;background:#071a3a;color:var(--muted);line-height:1.6;font-size:14px}
+    .catalog{margin-top:26px;padding:22px;border:1px solid #234b91;border-radius:20px;background:var(--panel);box-shadow:0 18px 48px #0002}
+    .catalog-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap}
+    .catalog-head h2{font-size:22px;margin:0 0 8px}.catalog-subtitle{margin:0;color:var(--muted);line-height:1.6}
+    .sample-badge{display:inline-flex;align-items:center;padding:7px 11px;border:1px solid #a9762d;border-radius:999px;background:#4b3516;color:#ffd58c;font-size:12px;font-weight:800}
+    .brand-filters{display:flex;gap:9px;flex-wrap:wrap;margin:20px 0}
+    .filter-button{padding:9px 14px;border:1px solid #2a5da8;border-radius:999px;background:#071a3a;color:#c9dcff;cursor:pointer}
+    .filter-button:hover,.filter-button.active{border-color:var(--blue);background:#104783;color:#fff}
+    .catalog-layout{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(250px,.9fr);gap:16px}
+    .model-list{display:grid;gap:10px;align-content:start}
+    .model-card{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border:1px solid #234b91;border-radius:14px;background:#071a3a;color:var(--text);text-align:left;cursor:pointer}
+    .model-card:hover,.model-card.active{border-color:var(--blue);background:#0b2b5b}
+    .model-name{font-weight:800}.model-brand{display:block;margin-top:5px;color:var(--muted);font-size:13px}
+    .model-arrow{color:#64b5ff;font-size:20px}
+    .empty-state{padding:18px;border:1px dashed #2a5da8;border-radius:14px;color:var(--muted);line-height:1.6}
+    .model-detail{padding:20px;border:1px solid #234b91;border-radius:16px;background:linear-gradient(145deg,#0b2450,#071a3a)}
+    .model-detail h3{margin:12px 0 6px;font-size:21px}.detail-brand{margin:0 0 18px;color:var(--muted)}
+    .detail-row{display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-top:1px solid #234b91;color:var(--muted);font-size:14px}.detail-row strong{color:#eaf2ff;text-align:right}
+    .detail-note{margin:16px 0 0;padding:12px;border-radius:10px;background:#4b351622;color:#ffd58c;font-size:13px;line-height:1.5}
+    @media(max-width:700px){.shell{padding:16px}.top-tools{gap:8px}.search-box{min-width:0}.brand span{display:none}.header-actions{width:100%}.catalog{padding:16px}.catalog-layout{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,minmax(100px,1fr));overflow:visible}.grid .tile:first-child{width:auto!important}.tile h2{white-space:normal}}
     footer{padding:30px 0 10px;color:#7795c8;font-size:12px;text-align:center}
     #message{color:#ffcf86}
   </style>
@@ -69,7 +88,7 @@
         <img src="boy-android-logo-transparent.png" alt="Logo Boy-Android"><span>Boy-Android</span>
       </a>
       <div class="top-tools">
-        <input class="search-box" id="siteSearch" type="search" placeholder="Cari fitur, menu, atau sesuatu..." aria-label="Cari menu">
+        <input class="search-box" id="siteSearch" type="search" placeholder="Cari merk atau tipe HP..." aria-label="Cari merk atau tipe HP">
         <div class="profile-wrap">
           <button class="profile-button" id="profileButton" type="button" aria-label="Buka menu profil" aria-expanded="false">♙</button>
           <div class="profile-menu" id="profileMenu" hidden>
@@ -86,7 +105,7 @@
       <section class="hero">
         <div class="eyebrow">Dashboard FIX ERROR</div>
         <h1>Selamat datang di FIX ERROR</h1>
-        <h1>FIX ERROR | Boy-Android</h1>
+        <h1>FIX ERROR | Dokumentasi</h1>
         <p class="lead">Halo, <span class="email" id="userEmail">memeriksa akun...</span>. selamat datang di halaman FIX ERROR</p>
         <p class="tagline">FIX ERROR | Boy-Android</p>
         <p class="login-success" id="loginSuccess" role="status" hidden>Halaman FIX ERROR siap digunakan!</p>
@@ -98,6 +117,26 @@
         <a class="tile" href="emmc.html"><h2>EMMC</h2></a>
         <a class="tile active" href="fix-error.html" aria-current="page"><h2>FIX ERROR</h2></a>
         <a class="tile" href="data.html"><h2>DATA</h2></a>
+      </section>
+      <section class="catalog" aria-labelledby="catalogTitle">
+        <div class="catalog-head">
+          <div><h2 id="catalogTitle">Katalog Solusi FIX ERROR</h2><p class="catalog-subtitle">Pilih tipe perangkat untuk melihat contoh kategori kendala dan panduan perbaikan.</p></div>
+          <span class="sample-badge">DATA CONTOH</span>
+        </div>
+        <div class="brand-filters" id="brandFilters" aria-label="Filter merk"></div>
+        <div class="catalog-layout">
+          <div class="model-list" id="modelList" aria-live="polite"></div>
+          <aside class="model-detail" id="modelDetail" aria-live="polite">
+            <span class="eyebrow">DETAIL PERANGKAT</span>
+            <h3 id="detailName">Pilih tipe HP</h3>
+            <p class="detail-brand" id="detailBrand">Informasi perangkat akan tampil di sini.</p>
+            <div class="detail-row"><span>Kode model</span><strong id="detailCode">—</strong></div>
+            <div class="detail-row"><span>Gejala</span><strong id="detailAndroid">Belum diisi</strong></div>
+            <div class="detail-row"><span>Panduan perbaikan</span><strong id="detailFiles">Belum tersedia</strong></div>
+            <div class="detail-row"><span>Status panduan</span><strong id="detailChecksum">Belum dinilai</strong></div>
+            <p class="detail-note">Ini hanya contoh tampilan katalog. Belum ada panduan perbaikan yang disediakan.</p>
+          </aside>
+        </div>
       </section>
       <span id="approvalText" class="tile-status" aria-hidden="true"></span>
       <div class="notice" id="message" role="status">Memeriksa sesi login dan izin akun...</div>
@@ -122,6 +161,18 @@
     const profileMenu = document.getElementById("profileMenu");
     const menuEmail = document.getElementById("menuEmail");
     const searchInput = document.getElementById("siteSearch");
+    const sampleDevices = [
+      { brand: "Samsung", model: "Galaxy A12", code: "SM-A125F", android: "Contoh — belum diverifikasi" },
+      { brand: "Samsung", model: "Galaxy A32", code: "SM-A325F", android: "Contoh — belum diverifikasi" },
+      { brand: "Xiaomi", model: "Redmi Note 10", code: "M2101K7AG", android: "Contoh — belum diverifikasi" },
+      { brand: "Xiaomi", model: "Redmi 9A", code: "M2006C3LG", android: "Contoh — belum diverifikasi" },
+      { brand: "OPPO", model: "A54", code: "CPH2239", android: "Contoh — belum diverifikasi" },
+      { brand: "vivo", model: "Y20", code: "V2027", android: "Contoh — belum diverifikasi" },
+      { brand: "realme", model: "C11", code: "RMX2185", android: "Contoh — belum diverifikasi" }
+    ];
+    const brandFilters = document.getElementById("brandFilters");
+    const modelList = document.getElementById("modelList");
+    let selectedBrand = "Semua";
     const year = new Date().getFullYear();
     document.getElementById("year").textContent = year;
     document.getElementById("sideYear").textContent = year;
@@ -129,10 +180,52 @@
     document.getElementById("closeSidebar").addEventListener("click", () => sidebar.hidden = true);
     profileButton.addEventListener("click", () => { profileMenu.hidden = !profileMenu.hidden; profileButton.setAttribute("aria-expanded", String(!profileMenu.hidden)); sidebar.hidden = true; });
     document.addEventListener("click", (event) => { if (!event.target.closest(".profile-wrap")) { profileMenu.hidden = true; profileButton.setAttribute("aria-expanded", "false"); } });
-    searchInput.addEventListener("input", () => {
+    function renderCatalog() {
+      const brands = ["Semua", ...new Set(sampleDevices.map(device => device.brand))];
+      brandFilters.replaceChildren(...brands.map(brand => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "filter-button" + (selectedBrand === brand ? " active" : "");
+        button.textContent = brand;
+        button.setAttribute("aria-pressed", String(selectedBrand === brand));
+        button.addEventListener("click", () => { selectedBrand = brand; renderCatalog(); });
+        return button;
+      }));
+
       const query = searchInput.value.trim().toLocaleLowerCase("id");
-      document.querySelectorAll("#menuGrid .tile").forEach(tile => { tile.hidden = query && !tile.innerText.toLocaleLowerCase("id").includes(query); });
-    });
+      const visible = sampleDevices.filter(device =>
+        (selectedBrand === "Semua" || device.brand === selectedBrand) &&
+        `${device.brand} ${device.model} ${device.code}`.toLocaleLowerCase("id").includes(query)
+      );
+      if (!visible.length) {
+        const empty = document.createElement("div");
+        empty.className = "empty-state";
+        empty.textContent = "Tipe HP tidak ditemukan. Coba kata kunci atau merk lain.";
+        modelList.replaceChildren(empty);
+        return;
+      }
+      modelList.replaceChildren(...visible.map(device => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "model-card";
+        button.innerHTML = `<span><span class="model-name"></span><span class="model-brand"></span></span><span class="model-arrow" aria-hidden="true">›</span>`;
+        button.querySelector(".model-name").textContent = device.model;
+        button.querySelector(".model-brand").textContent = `${device.brand} · contoh perangkat`;
+        button.addEventListener("click", () => showDeviceDetails(device));
+        return button;
+      }));
+    }
+
+    function showDeviceDetails(device) {
+      document.getElementById("detailName").textContent = device.model;
+      document.getElementById("detailBrand").textContent = `${device.brand} · data model contoh`;
+      document.getElementById("detailCode").textContent = device.code;
+      document.getElementById("detailAndroid").textContent = "Belum diisi";
+      document.getElementById("detailFiles").textContent = "Belum tersedia";
+      document.getElementById("detailChecksum").textContent = "Belum dinilai";
+    }
+    searchInput.addEventListener("input", renderCatalog);
+    renderCatalog();
 
     async function initializeHome() {
       const { data: sessionData, error: sessionError } = await supabaseClient.auth.getSession();
@@ -188,3 +281,4 @@
   </script>
 </body>
 </html>
+
