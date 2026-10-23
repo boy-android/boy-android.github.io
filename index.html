@@ -670,6 +670,7 @@
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="device-lock.js"></script>
   <script>
     const SUPABASE_URL = "https://ynohxhmcyoqkupxbqxhn.supabase.co";
     const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_t0pDUhdqe6RikCmVcYRvjg_vmSahQF7";
@@ -719,6 +720,12 @@
           email: document.getElementById("email").value.trim(), password: password.value
         });
         if (error) throw error;
+        const lock = await window.BoyDeviceLock.claim(supabaseClient);
+        if (!lock.allowed) {
+          if (lock.reason === "occupied") throw new Error("Akun ini sedang digunakan di perangkat lain. Keluar dari perangkat tersebut terlebih dahulu.");
+          if (lock.reason === "setup") throw new Error("Fitur pembatasan perangkat belum siap. Silakan hubungi admin.");
+          throw new Error("Browser tidak dapat menyimpan identitas perangkat. Periksa pengaturan penyimpanan browser.");
+        }
         showMessage("Login berhasil. Membuka halaman akun...");
         window.location.href = "dashboard.html";
       } catch (error) { showMessage(friendlyError(error)); }

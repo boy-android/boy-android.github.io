@@ -402,6 +402,7 @@
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="device-lock.js"></script>
   <script>
     const SUPABASE_URL = "https://ynohxhmcyoqkupxbqxhn.supabase.co";
     const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_t0pDUhdqe6RikCmVcYRvjg_vmSahQF7";
@@ -474,6 +475,12 @@
         });
         if (error) throw error;
         if (data.session) {
+          const lock = await window.BoyDeviceLock.claim(supabaseClient);
+          if (!lock.allowed) {
+            await supabaseClient.auth.signOut({ scope: "local" });
+            if (lock.reason === "occupied") throw new Error("Akun ini sudah aktif di perangkat lain. Pendaftaran berhasil, tetapi sesi di perangkat ini tidak dapat dibuka.");
+            throw new Error("Akun berhasil dibuat, tetapi verifikasi batas perangkat belum siap. Hubungi admin.");
+          }
           showMessage("Akun berhasil dibuat. Memeriksa status persetujuan...");
           window.location.href = "dashboard.html";
         } else {
