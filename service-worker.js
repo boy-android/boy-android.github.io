@@ -1,4 +1,4 @@
-const CACHE_NAME = "boy-android-pwa-v1";
+const CACHE_NAME = "boy-android-pwa-v2";
 const OFFLINE_URL = "/offline.html";
 const APP_ASSETS = [
   OFFLINE_URL,
