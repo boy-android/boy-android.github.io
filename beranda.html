@@ -107,6 +107,7 @@
 
   <!-- Library resmi Supabase JS v2 dari CDN; diperlukan untuk autentikasi dan pemeriksaan persetujuan akun. -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="device-lock.js"></script>
   <script>
     const SUPABASE_URL = "https://ynohxhmcyoqkupxbqxhn.supabase.co";
     const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_t0pDUhdqe6RikCmVcYRvjg_vmSahQF7";
@@ -139,6 +140,11 @@
         window.location.replace("index.html");
         return;
       }
+      const deviceLock = await window.BoyDeviceLock.claim(supabaseClient);
+      if (!deviceLock.allowed) {
+        window.location.replace("index.html");
+        return;
+      }
       const user = sessionData.session.user;
       emailEl.textContent = user.email || "Pengguna Boy-Android";
       menuEmail.textContent = user.email || "Pengguna Boy-Android";
@@ -167,7 +173,8 @@
     logoutButton.addEventListener("click", async () => {
       logoutButton.disabled = true;
       logoutButton.textContent = "Keluar...";
-      const { error } = await supabaseClient.auth.signOut();
+      await window.BoyDeviceLock.release(supabaseClient);
+      const { error } = await supabaseClient.auth.signOut({ scope: "local" });
       if (error) {
         messageEl.textContent = "Gagal keluar: " + error.message;
         logoutButton.disabled = false;

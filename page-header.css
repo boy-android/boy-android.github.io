@@ -1,0 +1,108 @@
+:root {
+  color-scheme: dark;
+  --bg: #06132f;
+  --panel: rgba(5, 19, 47, .88);
+  --line: #234b91;
+  --muted: #9bb6e5;
+  --blue: #1685ff;
+  --text: #f4f7ff;
+}
+
+* { box-sizing: border-box; }
+
+html, body { min-height: 100%; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--text);
+  font-family: "Segoe UI", Arial, sans-serif;
+  background:
+    radial-gradient(ellipse at 12% 8%, #123d87, transparent 42%),
+    radial-gradient(ellipse at 90% 75%, #102c63, transparent 38%),
+    linear-gradient(135deg, #06132f, #081d48 55%, #06132f);
+}
+
+.site-header {
+  width: min(1180px, 100% - 40px);
+  min-height: 88px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 26px;
+  border-bottom: 1px solid #234b9166;
+}
+
+.brand {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--text);
+  font-size: 20px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.brand img { width: 54px; height: 54px; object-fit: contain; }
+
+.primary-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 8px 0;
+}
+
+.primary-nav a, .back-link {
+  color: var(--muted);
+  text-decoration: none;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.primary-nav a {
+  padding: 10px 13px;
+  border: 1px solid transparent;
+  border-radius: 11px;
+  transition: background .2s, border-color .2s, color .2s;
+}
+
+.primary-nav a:hover, .primary-nav a.active {
+  color: #fff;
+  background: #1685ff1c;
+  border-color: #1685ff66;
+}
+
+.page-shell { width: min(1180px, 100% - 40px); margin: 30px auto; }
+.back-link { display: inline-block; margin: 0 0 24px; }
+.back-link:hover { color: #fff; }
+
+.page-heading {
+  padding: 28px 30px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--panel);
+  box-shadow: 0 18px 48px #0002;
+}
+
+.page-heading h1 { margin: 0; font-size: clamp(28px, 5vw, 42px); }
+
+@media (max-width: 760px) {
+  .site-header {
+    width: calc(100% - 32px);
+    min-height: 0;
+    padding: 12px 0 10px;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .brand { font-size: 18px; }
+  .brand img { width: 46px; height: 46px; }
+  .primary-nav { width: 100%; padding: 0 0 4px; }
+  .primary-nav a { padding: 9px 11px; }
+  .page-shell { width: calc(100% - 32px); margin: 22px auto; }
+  .page-heading { padding: 22px; }
+}

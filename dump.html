@@ -55,13 +55,14 @@
     .catalog{margin-top:26px;padding:22px;border:1px solid #234b91;border-radius:20px;background:var(--panel);box-shadow:0 18px 48px #0002}
     .catalog-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap}
     .catalog-head h2{font-size:22px;margin:0 0 8px}.catalog-subtitle{margin:0;color:var(--muted);line-height:1.6}
+    .catalog-search{width:min(520px,100%);margin:18px 0 0}.catalog-search .search-box{width:100%}
     .sample-badge{display:inline-flex;align-items:center;padding:7px 11px;border:1px solid #a9762d;border-radius:999px;background:#4b3516;color:#ffd58c;font-size:12px;font-weight:800}
     .brand-filters{display:flex;gap:9px;flex-wrap:wrap;margin:20px 0}
     .filter-button{padding:9px 14px;border:1px solid #2a5da8;border-radius:999px;background:#071a3a;color:#c9dcff;cursor:pointer}
     .filter-button:hover,.filter-button.active{border-color:var(--blue);background:#104783;color:#fff}
     .catalog-layout{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(250px,.9fr);gap:16px}
-    .model-list{display:grid;gap:10px;align-content:start}
-    .model-card{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border:1px solid #234b91;border-radius:14px;background:#071a3a;color:var(--text);text-align:left;cursor:pointer}
+    .model-list{display:grid;gap:10px;align-content:start;max-height:710px;overflow-y:auto;padding-right:6px;overscroll-behavior:contain;scrollbar-color:#398eff #071a3a;scrollbar-width:thin}
+    .model-card{width:100%;min-height:60px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 16px;border:1px solid #234b91;border-radius:14px;background:#071a3a;color:var(--text);text-align:left;cursor:pointer}
     .model-card:hover,.model-card.active{border-color:var(--blue);background:#0b2b5b}
     .model-name{font-weight:800}.model-brand{display:block;margin-top:5px;color:var(--muted);font-size:13px}
     .model-arrow{color:#64b5ff;font-size:20px}
@@ -69,6 +70,7 @@
     .model-detail{padding:20px;border:1px solid #234b91;border-radius:16px;background:linear-gradient(145deg,#0b2450,#071a3a)}
     .model-detail h3{margin:12px 0 6px;font-size:21px}.detail-brand{margin:0 0 18px;color:var(--muted)}
     .detail-row{display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-top:1px solid #234b91;color:var(--muted);font-size:14px}.detail-row strong{color:#eaf2ff;text-align:right}
+    .resource-list{display:grid;gap:10px;margin-top:14px}.resource-card{padding:13px;border:1px solid #234b91;border-radius:12px;background:#071a3a}.resource-card h4{margin:0 0 7px;font-size:15px}.resource-meta{margin:4px 0;color:var(--muted);font-size:13px;line-height:1.5}.resource-link{display:inline-flex;margin-top:8px;color:#8fc8ff;font-weight:700;text-decoration:none}.resource-link:hover{text-decoration:underline}
     .detail-note{margin:16px 0 0;padding:12px;border-radius:10px;background:#4b351622;color:#ffd58c;font-size:13px;line-height:1.5}
     @media(max-width:700px){.shell{padding:16px}.top-tools{gap:8px}.search-box{min-width:0}.brand span{display:none}.header-actions{width:100%}.catalog{padding:16px}.catalog-layout{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,minmax(100px,1fr));overflow:visible}.grid .tile:first-child{width:auto!important}.tile h2{white-space:normal}}
     footer{padding:30px 0 10px;color:#7795c8;font-size:12px;text-align:center}
@@ -88,7 +90,6 @@
         <img src="boy-android-logo-transparent.png" alt="Logo Boy-Android"><span>Boy-Android</span>
       </a>
       <div class="top-tools">
-        <input class="search-box" id="siteSearch" type="search" placeholder="Cari merk atau tipe HP..." aria-label="Cari merk atau tipe HP">
         <div class="profile-wrap">
           <button class="profile-button" id="profileButton" type="button" aria-label="Buka menu profil" aria-expanded="false">♙</button>
           <div class="profile-menu" id="profileMenu" hidden>
@@ -121,11 +122,11 @@
       <section class="catalog" aria-labelledby="catalogTitle">
         <div class="catalog-head">
           <div><h2 id="catalogTitle">Katalog DUMP HP</h2><p class="catalog-subtitle">Pilih merk lalu tipe perangkat untuk melihat ringkasan informasi DUMP.</p></div>
-          <span class="sample-badge">DATA CONTOH</span>
         </div>
+        <div class="catalog-search"><input class="search-box" id="siteSearch" type="search" placeholder="Cari merk atau tipe HP..." aria-label="Cari merk atau tipe HP"></div>
         <div class="brand-filters" id="brandFilters" aria-label="Filter merk"></div>
         <div class="catalog-layout">
-          <div class="model-list" id="modelList" aria-live="polite"></div>
+          <div class="model-list" id="modelList" aria-live="polite"><div class="empty-state">Memuat katalog HP…</div></div>
           <aside class="model-detail" id="modelDetail" aria-live="polite">
             <span class="eyebrow">DETAIL PERANGKAT</span>
             <h3 id="detailName">Pilih tipe HP</h3>
@@ -133,8 +134,7 @@
             <div class="detail-row"><span>Kode model</span><strong id="detailCode">—</strong></div>
             <div class="detail-row"><span>Versi Android</span><strong id="detailAndroid">—</strong></div>
             <div class="detail-row"><span>Berkas DUMP</span><strong id="detailFiles">Belum tersedia</strong></div>
-            <div class="detail-row"><span>Checksum</span><strong id="detailChecksum">Belum tersedia</strong></div>
-            <p class="detail-note">Ini hanya contoh tampilan katalog. Belum ada berkas DUMP yang disediakan untuk diunduh.</p>
+            <div class="resource-list" id="dumpFileList"><div class="empty-state">Pilih tipe HP untuk melihat berkas DUMP.</div></div>
           </aside>
         </div>
       </section>
@@ -161,15 +161,8 @@
     const profileMenu = document.getElementById("profileMenu");
     const menuEmail = document.getElementById("menuEmail");
     const searchInput = document.getElementById("siteSearch");
-    const sampleDevices = [
-      { brand: "Samsung", model: "Galaxy A12", code: "SM-A125F", android: "Contoh — belum diverifikasi" },
-      { brand: "Samsung", model: "Galaxy A32", code: "SM-A325F", android: "Contoh — belum diverifikasi" },
-      { brand: "Xiaomi", model: "Redmi Note 10", code: "M2101K7AG", android: "Contoh — belum diverifikasi" },
-      { brand: "Xiaomi", model: "Redmi 9A", code: "M2006C3LG", android: "Contoh — belum diverifikasi" },
-      { brand: "OPPO", model: "A54", code: "CPH2239", android: "Contoh — belum diverifikasi" },
-      { brand: "vivo", model: "Y20", code: "V2027", android: "Contoh — belum diverifikasi" },
-      { brand: "realme", model: "C11", code: "RMX2185", android: "Contoh — belum diverifikasi" }
-    ];
+    let sampleDevices = [];
+    let catalogError = "";
     const brandFilters = document.getElementById("brandFilters");
     const modelList = document.getElementById("modelList");
     let selectedBrand = "Semua";
@@ -200,7 +193,7 @@
       if (!visible.length) {
         const empty = document.createElement("div");
         empty.className = "empty-state";
-        empty.textContent = "Tipe HP tidak ditemukan. Coba kata kunci atau merk lain.";
+        empty.textContent = catalogError || "Tipe HP tidak ditemukan. Coba kata kunci atau merk lain.";
         modelList.replaceChildren(empty);
         return;
       }
@@ -210,22 +203,97 @@
         button.className = "model-card";
         button.innerHTML = `<span><span class="model-name"></span><span class="model-brand"></span></span><span class="model-arrow" aria-hidden="true">›</span>`;
         button.querySelector(".model-name").textContent = device.model;
-        button.querySelector(".model-brand").textContent = `${device.brand} · contoh perangkat`;
+        button.querySelector(".model-brand").textContent = device.code && device.code !== "Belum diisi" ? `${device.brand} · ${device.code}` : device.brand;
         button.addEventListener("click", () => showDeviceDetails(device));
         return button;
       }));
     }
 
-    function showDeviceDetails(device) {
+    async function loadCatalog() {
+      modelList.innerHTML = '<div class="empty-state">Memuat daftar tipe HP…</div>';
+      const [brandResult, modelResult, dumpResult] = await Promise.all([
+        supabaseClient.from("phone_brands").select("id,name,sort_order").eq("is_active", true).order("sort_order"),
+        supabaseClient.from("phone_models").select("id,brand_id,name,model_code,android_version,sort_order").eq("is_active", true).order("sort_order").order("name"),
+        supabaseClient.from("dump_files").select("id,model_id,title,firmware_version,android_version,storage_path,file_size_bytes,sha256,notes,sort_order").eq("is_active", true).order("sort_order").order("title")
+      ]);
+      if (brandResult.error || modelResult.error || dumpResult.error) {
+        catalogError = "Katalog belum dapat dimuat. Pastikan phone-catalog.sql sudah dijalankan di Supabase.";
+        return;
+      }
+      const brandsById = new Map((brandResult.data || []).map(brand => [brand.id, brand]));
+      const brandOrder = new Map((brandResult.data || []).map((brand, index) => [brand.id, index]));
+      const dumpFilesByModel = new Map();
+      for (const file of dumpResult.data || []) {
+        if (!dumpFilesByModel.has(file.model_id)) dumpFilesByModel.set(file.model_id, []);
+        dumpFilesByModel.get(file.model_id).push(file);
+      }
+      sampleDevices = (modelResult.data || [])
+        .filter(model => brandsById.has(model.brand_id))
+        .sort((a, b) => brandOrder.get(a.brand_id) - brandOrder.get(b.brand_id) || a.sort_order - b.sort_order || a.name.localeCompare(b.name))
+        .map(model => ({
+          id: model.id,
+          brand: brandsById.get(model.brand_id).name,
+          model: model.name,
+          code: model.model_code || "Belum diisi",
+          android: model.android_version || "Belum diisi",
+          dumpFiles: dumpFilesByModel.get(model.id) || []
+        }));
+      catalogError = sampleDevices.length ? "" : "Belum ada merk atau tipe HP aktif di database.";
+    }
+
+    async function showDeviceDetails(device) {
       document.getElementById("detailName").textContent = device.model;
-      document.getElementById("detailBrand").textContent = `${device.brand} · data model contoh`;
+      document.getElementById("detailBrand").textContent = device.brand;
       document.getElementById("detailCode").textContent = device.code;
       document.getElementById("detailAndroid").textContent = device.android;
-      document.getElementById("detailFiles").textContent = "Belum tersedia";
-      document.getElementById("detailChecksum").textContent = "Belum tersedia";
+      document.getElementById("detailFiles").textContent = device.dumpFiles.length ? `${device.dumpFiles.length} berkas` : "Belum tersedia";
+      const fileList = document.getElementById("dumpFileList");
+      if (!device.dumpFiles.length) {
+        fileList.innerHTML = '<div class="empty-state">Belum ada berkas DUMP untuk tipe HP ini.</div>';
+        return;
+      }
+      fileList.replaceChildren();
+      for (const file of device.dumpFiles) {
+        const card = document.createElement("article");
+        card.className = "resource-card";
+        const title = document.createElement("h4");
+        title.textContent = file.title;
+        card.append(title);
+        const meta = document.createElement("p");
+        const size = file.file_size_bytes ? `${(file.file_size_bytes / 1024 / 1024).toFixed(1)} MB` : "Ukuran belum diisi";
+        meta.className = "resource-meta";
+        meta.textContent = `Firmware: ${file.firmware_version || "Belum diisi"} · Android: ${file.android_version || device.android} · ${size}`;
+        card.append(meta);
+        if (file.sha256) {
+          const checksum = document.createElement("p");
+          checksum.className = "resource-meta";
+          checksum.textContent = `SHA-256: ${file.sha256}`;
+          card.append(checksum);
+        }
+        if (file.notes) {
+          const notes = document.createElement("p");
+          notes.className = "resource-meta";
+          notes.textContent = file.notes;
+          card.append(notes);
+        }
+        const { data: signedFile, error } = await supabaseClient.storage.from("phone-resources").createSignedUrl(file.storage_path, 3600, { download: true });
+        if (!error && signedFile?.signedUrl) {
+          const link = document.createElement("a");
+          link.className = "resource-link";
+          link.href = signedFile.signedUrl;
+          link.textContent = "Unduh berkas DUMP";
+          link.rel = "noopener";
+          card.append(link);
+        } else {
+          const unavailable = document.createElement("p");
+          unavailable.className = "resource-meta";
+          unavailable.textContent = "Unduhan belum dapat dibuat.";
+          card.append(unavailable);
+        }
+        fileList.append(card);
+      }
     }
     searchInput.addEventListener("input", renderCatalog);
-    renderCatalog();
 
     async function initializeHome() {
       const { data: sessionData, error: sessionError } = await supabaseClient.auth.getSession();
@@ -261,6 +329,8 @@
       approvalText.textContent = "Akun disetujui oleh admin.";
       loginSuccess.hidden = false;
       messageEl.hidden = true;
+      await loadCatalog();
+      renderCatalog();
     }
 
     logoutButton.addEventListener("click", async () => {

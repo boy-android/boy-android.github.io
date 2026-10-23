@@ -69,7 +69,6 @@
         <img src="boy-android-logo-transparent.png" alt="Logo Boy-Android"><span>Boy-Android</span>
       </a>
       <div class="top-tools">
-        <input class="search-box" id="siteSearch" type="search" placeholder="Cari fitur, menu, atau sesuatu..." aria-label="Cari menu">
         <div class="profile-wrap">
           <button class="profile-button" id="profileButton" type="button" aria-label="Buka menu profil" aria-expanded="false">♙</button>
           <div class="profile-menu" id="profileMenu" hidden>
@@ -121,7 +120,6 @@
     const profileButton = document.getElementById("profileButton");
     const profileMenu = document.getElementById("profileMenu");
     const menuEmail = document.getElementById("menuEmail");
-    const searchInput = document.getElementById("siteSearch");
     const year = new Date().getFullYear();
     document.getElementById("year").textContent = year;
     document.getElementById("sideYear").textContent = year;
@@ -129,11 +127,6 @@
     document.getElementById("closeSidebar").addEventListener("click", () => sidebar.hidden = true);
     profileButton.addEventListener("click", () => { profileMenu.hidden = !profileMenu.hidden; profileButton.setAttribute("aria-expanded", String(!profileMenu.hidden)); sidebar.hidden = true; });
     document.addEventListener("click", (event) => { if (!event.target.closest(".profile-wrap")) { profileMenu.hidden = true; profileButton.setAttribute("aria-expanded", "false"); } });
-    searchInput.addEventListener("input", () => {
-      const query = searchInput.value.trim().toLocaleLowerCase("id");
-      document.querySelectorAll("#menuGrid .tile").forEach(tile => { tile.hidden = query && !tile.innerText.toLocaleLowerCase("id").includes(query); });
-    });
-
     async function initializeHome() {
       const { data: sessionData, error: sessionError } = await supabaseClient.auth.getSession();
       if (sessionError || !sessionData.session) {
