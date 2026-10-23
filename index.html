@@ -429,6 +429,50 @@
       display: block;
     }
 
+    .resend-verification {
+      display: none;
+      margin-top: 10px;
+      padding: 10px 13px;
+      border: 1px solid var(--primary);
+      border-radius: 10px;
+      color: #b9d5ff;
+      background: #0b2048;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .resend-verification.show { display: inline-flex; }
+
+    .verification-support {
+      display: none;
+      gap: 9px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .verification-support.show { display: flex; }
+
+    .verification-support a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 9px 12px;
+      border: 1px solid #2a5da8;
+      border-radius: 9px;
+      color: #dfeeff;
+      background: #102b55;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .verification-support .whatsapp-link {
+      border-color: #27865f;
+      background: #0d6244;
+    }
+
     footer {
       margin-top: 25px;
       color: #7895c3;
@@ -663,6 +707,13 @@
           role="status"
           aria-live="polite"
         ></div>
+        <div class="verification-support" id="verificationSupport" aria-label="Hubungi admin untuk bantuan verifikasi">
+          <a class="whatsapp-link" href="https://wa.me/6289514007900?text=Halo%20Admin%20Boy-Android%2C%20saya%20gagal%20memverifikasi%20email%20akun." target="_blank" rel="noopener noreferrer">WhatsApp Admin</a>
+          <a href="mailto:dimaswilly626@gmail.com?subject=Bantuan%20Verifikasi%20Email&body=Halo%20Admin%20Boy-Android%2C%20saya%20gagal%20memverifikasi%20email%20akun.">Kirim Email</a>
+        </div>
+        <button type="button" class="resend-verification" id="resendVerification">
+          Kirim ulang email verifikasi
+        </button>
 
         <div class="divider">Belum punya akun?</div>
 
@@ -689,6 +740,7 @@
     const password = document.getElementById("password");
     const togglePassword = document.getElementById("togglePassword");
     const message = document.getElementById("message");
+    const verificationSupport = document.getElementById("verificationSupport");
 
     // Tahun otomatis
     document.getElementById("year").textContent =
@@ -709,22 +761,31 @@
     });
 
     // Pesan status
-    function showMessage(text) {
+    const resendVerification = document.getElementById("resendVerification");
+
+    function showMessage(text, canResend = false) {
       message.textContent = text;
       message.classList.add("show");
+      resendVerification.classList.toggle("show", canResend);
+      verificationSupport.classList.toggle("show", canResend);
     }
 
     function friendlyError(error) {
       const text = (error?.message || "").toLowerCase();
       if (text.includes("invalid login credentials")) return "Email atau password salah. Periksa kembali lalu coba lagi.";
-      if (text.includes("email not confirmed")) return "Email belum dikonfirmasi. Silahkan buka email email anda lalu klik tautan konfirmasi.";
+      if (text.includes("email not confirmed")) return "Email belum terverifikasi. Periksa alamat email, lalu cek Kotak Masuk, Spam, atau Promosi dan buka tautan konfirmasi terbaru. Jika belum menerima email, gunakan tombol kirim ulang di bawah.";
       return error?.message || "Terjadi kesalahan. Coba lagi.";
+    }
+    function isEmailNotConfirmed(error) {
+      return (error?.message || "").toLowerCase().includes("email not confirmed");
     }
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
       const button = form.querySelector('button[type="submit"]');
       button.disabled = true; button.textContent = "Memproses...";
       message.classList.remove("show");
+      resendVerification.classList.remove("show");
+      verificationSupport.classList.remove("show");
       try {
         const { data: signInData, error } = await supabaseClient.auth.signInWithPassword({
           email: document.getElementById("email").value.trim(), password: password.value
@@ -751,8 +812,32 @@
         }
         showMessage("Login berhasil. Membuka halaman akun...");
         window.location.href = "dashboard.html";
-      } catch (error) { showMessage(friendlyError(error)); }
+      } catch (error) { showMessage(friendlyError(error), isEmailNotConfirmed(error)); }
       finally { button.disabled = false; button.innerHTML = "Login &nbsp; →"; }
+    });
+    resendVerification.addEventListener("click", async () => {
+      const email = document.getElementById("email").value.trim();
+      if (!email) {
+        showMessage("Masukkan alamat email akun terlebih dahulu, lalu coba kirim ulang.", true);
+        document.getElementById("email").focus();
+        return;
+      }
+      resendVerification.disabled = true;
+      resendVerification.textContent = "Mengirim…";
+      try {
+        const { error } = await supabaseClient.auth.resend({
+          type: "signup",
+          email,
+          options: { emailRedirectTo: "https://boy-android.github.io/" }
+        });
+        if (error) throw error;
+        showMessage("Permintaan kirim ulang berhasil. Periksa Kotak Masuk, Spam, atau Promosi. Gunakan tautan konfirmasi terbaru.");
+      } catch (error) {
+        showMessage("Email verifikasi belum dapat dikirim ulang. Pastikan alamatnya benar, tunggu sebentar jika terlalu sering meminta email, lalu coba lagi. " + friendlyError(error), true);
+      } finally {
+        resendVerification.disabled = false;
+        resendVerification.textContent = "Kirim ulang email verifikasi";
+      }
     });
     document.getElementById("forgotLink").addEventListener("click", async (event) => {
       event.preventDefault();
