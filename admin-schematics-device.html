@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#07152b">
+  <title>Admin perangkat SCHEMATICS — Boy-Android</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    :root{color-scheme:dark;font:15px/1.5 system-ui,"Segoe UI",sans-serif;background:#081326;color:#edf4ff}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 75% 0,#173a68,#081326 55%)}main{max-width:1200px;margin:auto;padding:32px 26px}.top{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}h1{margin:0;font-size:27px}.muted{color:#a9bad1}.panel{margin-top:22px;padding:24px;border:1px solid #2a3d58;border-radius:16px;background:#101e33}.hidden{display:none!important}label{display:block;margin:14px 0 6px}input,button{font:inherit;border:1px solid #344b69;border-radius:9px;padding:10px 12px}input{display:block;width:min(100%,380px);background:#091629;color:#fff}button{background:#17497c;color:white;font-weight:650;cursor:pointer}button:disabled{opacity:.6;cursor:wait}.danger{background:#672a38;border-color:#944454}.notice{margin-top:18px;padding:12px 14px;border-radius:10px;background:#0b1a2e;color:#b9c9dd;overflow-wrap:anywhere}.notice.error{color:#ffabb0}.table-wrap{overflow:auto;margin-top:18px}table{width:100%;border-collapse:collapse;min-width:700px}th,td{padding:14px 12px;text-align:left;border-bottom:1px solid #263b56}th{color:#a9bad1}td:last-child{width:160px}a{color:#8dc4ff}.hint{font-size:12px;margin-top:20px}
+  </style>
+</head>
+<body>
+<main>
+  <header class="top"><div><p class="muted">BOY-ANDROID / ADMIN</p><h1>Ikatan perangkat SCHEMATICS</h1></div><button id="logout" class="hidden" type="button">Keluar admin</button></header>
+  <div id="notice" class="notice" role="status">Memeriksa sesi…</div>
+  <section id="loginPanel" class="panel hidden">
+    <h2>Masuk sebagai admin</h2><form id="loginForm"><label for="email">Email</label><input id="email" type="email" autocomplete="username" required><label for="password">Kata sandi</label><input id="password" type="password" autocomplete="current-password" required><button type="submit">Masuk</button></form>
+  </section>
+  <section id="devicePanel" class="panel hidden"><h2>PC yang terikat</h2><p class="muted">Reset ikatan hanya jika pengguna diizinkan pindah PC. Setelah reset, akun akan terikat ke PC pertama yang masuk SCHEMATICS berikutnya.</p><div class="table-wrap"><table><thead><tr><th>Email akun</th><th>Tanggal terikat</th><th>Aksi</th></tr></thead><tbody id="devices"></tbody></table></div><p id="empty" class="muted hidden">Belum ada akun yang terikat ke PC.</p></section>
+  <p class="hint muted"><a href="/admin.html">Kembali ke panel admin Boy-Android</a></p>
+</main>
+<script>
+  const supabase = window.supabase.createClient("https://ynohxhmcyoqkupxbqxhn.supabase.co", "sb_publishable_t0pDUhdqe6RikCmVcYRvjg_vmSahQF7", { auth: { storageKey: "boy-android-schematics-admin-auth", persistSession: true, autoRefreshToken: true, detectSessionInUrl: false } });
+  const $ = id => document.getElementById(id);
+  function notice(text, error = false) { $("notice").textContent = text; $("notice").classList.toggle("error", error); }
+  function show(id, visible) { $(id).classList.toggle("hidden", !visible); }
+  async function checkAdmin() {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) { show("loginPanel", true); show("devicePanel", false); show("logout", false); notice("Silakan masuk dengan akun admin."); return; }
+    show("logout", true);
+    const { data: isAdmin, error: adminError } = await supabase.rpc("ba_is_admin");
+    if (adminError || isAdmin !== true) { show("loginPanel", false); show("devicePanel", false); notice(adminError ? `Pemeriksaan admin gagal: ${adminError.message}` : "Akun ini bukan admin.", true); return; }
+    const { data: access, error: accessError } = await supabase.from("user_access").select("status,expires_on").eq("user_id", session.user.id).maybeSingle();
+    const today = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Jakarta", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date());
+    if (accessError || !access || access.status !== "approved" || (access.expires_on && access.expires_on < today)) { show("loginPanel", false); show("devicePanel", false); notice("Akun admin harus berstatus disetujui dan belum kedaluwarsa.", true); return; }
+    show("loginPanel", false); show("devicePanel", true); notice(`Login admin: ${session.user.email || ""}`); await loadDevices();
+  }
+  async function loadDevices() {
+    const body = $("devices"); body.replaceChildren(); $("empty").classList.add("hidden");
+    const { data, error } = await supabase.rpc("ba_admin_list_schematics_devices");
+    if (error) { notice(`Gagal memuat daftar ikatan PC. Jalankan supabase/schematic-files.sql terbaru: ${error.message}`, true); return; }
+    for (const device of data || []) {
+      const row = document.createElement("tr"); const email = document.createElement("td"); email.textContent = device.email || device.user_id;
+      const date = document.createElement("td"); date.textContent = device.bound_at ? new Date(device.bound_at).toLocaleString("id-ID") : "—";
+      const actions = document.createElement("td"); const reset = document.createElement("button"); reset.className = "danger"; reset.textContent = "Izinkan ganti PC";
+      reset.addEventListener("click", () => resetBinding(device, reset)); actions.append(reset); row.append(email, date, actions); body.append(row);
+    }
+    if (!data?.length) $("empty").classList.remove("hidden");
+  }
+  async function resetBinding(device, button) {
+    if (!confirm(`Hapus ikatan PC SCHEMATICS untuk ${device.email || "akun ini"}? Akun dapat terikat ke PC baru saat login berikutnya.`)) return;
+    button.disabled = true;
+    const { data, error } = await supabase.rpc("ba_admin_reset_schematics_device", { p_user_id: device.user_id });
+    if (error || data !== true) { notice(`Ikatan PC tidak berhasil direset${error ? `: ${error.message}` : "."}`, true); button.disabled = false; return; }
+    notice(`Ikatan PC ${device.email || "akun"} sudah direset. Pengguna dapat masuk dari PC pengganti.`); await loadDevices();
+  }
+  $("loginForm").addEventListener("submit", async event => { event.preventDefault(); const { error } = await supabase.auth.signInWithPassword({ email: $("email").value.trim(), password: $("password").value }); if (error) { notice(`Login gagal: ${error.message}`, true); return; } await checkAdmin(); });
+  $("logout").addEventListener("click", async () => { await supabase.auth.signOut(); await checkAdmin(); });
+  supabase.auth.onAuthStateChange(() => setTimeout(checkAdmin, 0));
+  checkAdmin();
+</script>
+</body>
+</html>
