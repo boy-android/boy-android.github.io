@@ -15,6 +15,18 @@
   <header class="top"><div><p class="muted">BOY-ANDROID / ADMIN</p><h1>Ikatan perangkat SCHEMATICS</h1></div><button id="logout" class="hidden" type="button">Keluar admin</button></header>
   <div id="notice" class="notice" role="status">Memeriksa sesi admin SCHEMATICS…</div>
   <script>
+    window.addEventListener("error", event => {
+      const status = document.getElementById("notice");
+      if (!status || !status.textContent.includes("Memeriksa sesi")) return;
+      status.textContent = `Kesalahan JavaScript halaman: ${event.message || "skrip gagal dijalankan"}`;
+      status.classList.add("error");
+    });
+    window.addEventListener("unhandledrejection", event => {
+      const status = document.getElementById("notice");
+      if (!status || !status.textContent.includes("Memeriksa sesi")) return;
+      status.textContent = `Pemeriksaan sesi gagal: ${event.reason?.message || event.reason || "permintaan gagal"}`;
+      status.classList.add("error");
+    });
     window.setTimeout(() => {
       const status = document.getElementById("notice");
       if (status?.textContent.trim() === "Memeriksa sesi admin SCHEMATICS…") {
@@ -31,7 +43,7 @@
 </main>
 <script>
   // Use the same default auth storage key as admin.html so both admin pages share one login.
-  const supabase = window.supabase?.createClient
+  const client = window.supabase?.createClient
     ? window.supabase.createClient("https://ynohxhmcyoqkupxbqxhn.supabase.co", "sb_publishable_t0pDUhdqe6RikCmVcYRvjg_vmSahQF7", { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false } })
     : null;
   const $ = id => document.getElementById(id);
@@ -50,16 +62,16 @@
     notice("Memeriksa sesi admin SCHEMATICS…");
     try {
       if (!window.supabase?.createClient) throw new Error("Library Supabase tidak termuat. Muat ulang halaman dan periksa koneksi internet.");
-      const { data, error: sessionError } = await withTimeout(supabase.auth.getSession(), "Pemeriksaan sesi terlalu lama. Periksa koneksi internet lalu muat ulang halaman.");
+      const { data, error: sessionError } = await withTimeout(client.auth.getSession(), "Pemeriksaan sesi terlalu lama. Periksa koneksi internet lalu muat ulang halaman.");
       if (sessionError) throw sessionError;
       const session = data?.session;
       if (!session) { show("loginPanel", true); show("logout", false); notice("Silakan masuk dengan akun admin."); return; }
       show("logout", true);
-      const { data: isAdmin, error: adminError } = await withTimeout(supabase.rpc("ba_is_admin"), "Pemeriksaan hak admin terlalu lama. Muat ulang halaman.");
+      const { data: isAdmin, error: adminError } = await withTimeout(client.rpc("ba_is_admin"), "Pemeriksaan hak admin terlalu lama. Muat ulang halaman.");
       if (adminError) throw new Error(`Pemeriksaan admin gagal: ${adminError.message}`);
       if (isAdmin !== true) { show("loginPanel", false); notice("Akun ini bukan admin.", true); return; }
       const { data: access, error: accessError } = await withTimeout(
-        supabase.from("user_access").select("status,expires_on").eq("user_id", session.user.id).maybeSingle(),
+        client.from("user_access").select("status,expires_on").eq("user_id", session.user.id).maybeSingle(),
         "Pemeriksaan status akun terlalu lama. Muat ulang halaman."
       );
       if (accessError) throw new Error(`Status akun gagal diperiksa: ${accessError.message}`);
@@ -80,7 +92,7 @@
   }
   async function loadDevices() {
     const body = $("devices"); body.replaceChildren(); $("empty").classList.add("hidden");
-    const { data, error } = await withTimeout(supabase.rpc("ba_admin_list_schematics_devices"), "Memuat daftar ikatan PC terlalu lama. Periksa koneksi internet.");
+      const { data, error } = await withTimeout(client.rpc("ba_admin_list_schematics_devices"), "Memuat daftar ikatan PC terlalu lama. Periksa koneksi internet.");
     if (error) { notice(`Gagal memuat daftar ikatan PC. Jalankan supabase/schematic-files.sql terbaru: ${error.message}`, true); return; }
     for (const device of data || []) {
       const row = document.createElement("tr"); const email = document.createElement("td"); email.textContent = device.email || device.user_id;
@@ -93,7 +105,7 @@
   async function resetBinding(device, button) {
     if (!confirm(`Hapus ikatan PC SCHEMATICS untuk ${device.email || "akun ini"}? Akun dapat terikat ke PC baru saat login berikutnya.`)) return;
     button.disabled = true;
-    const { data, error } = await supabase.rpc("ba_admin_reset_schematics_device", { p_user_id: device.user_id });
+    const { data, error } = await client.rpc("ba_admin_reset_schematics_device", { p_user_id: device.user_id });
     if (error || data !== true) { notice(`Ikatan PC tidak berhasil direset${error ? `: ${error.message}` : "."}`, true); button.disabled = false; return; }
     notice(`Ikatan PC ${device.email || "akun"} sudah direset. Pengguna dapat masuk dari PC pengganti.`); await loadDevices();
   }
@@ -101,7 +113,7 @@
     event.preventDefault();
     const button = $("loginForm").querySelector("button[type=submit]"); button.disabled = true;
     try {
-      const { error } = await withTimeout(supabase.auth.signInWithPassword({ email: $("email").value.trim(), password: $("password").value }), "Login terlalu lama. Periksa koneksi internet.");
+      const { error } = await withTimeout(client.auth.signInWithPassword({ email: $("email").value.trim(), password: $("password").value }), "Login terlalu lama. Periksa koneksi internet.");
       if (error) { notice(`Login gagal: ${error.message}`, true); return; }
       await checkAdmin();
     } catch (error) { notice(`Login gagal: ${error?.message || error}`, true); }
@@ -109,11 +121,11 @@
   });
   $("logout").addEventListener("click", async () => {
     $("logout").disabled = true;
-    try { const { error } = await supabase.auth.signOut(); if (error) throw error; await checkAdmin(); }
+    try { const { error } = await client.auth.signOut(); if (error) throw error; await checkAdmin(); }
     catch (error) { notice(`Logout gagal: ${error?.message || error}`, true); }
     finally { $("logout").disabled = false; }
   });
-  if (supabase) supabase.auth.onAuthStateChange(() => setTimeout(checkAdmin, 0));
+  if (client) client.auth.onAuthStateChange(() => setTimeout(checkAdmin, 0));
   checkAdmin();
 </script>
 </body>
