@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#06132f">
+  <meta name="description" content="Informasi pembaruan website Boy-Android dan aplikasi desktop SCHEMATICS.">
+  <title>Informasi & Unduhan | Boy-Android</title>
+  <link rel="icon" type="image/png" href="boy-android-logo-transparent.png">
+  <script src="/theme-mode.js"></script>
+  <link rel="stylesheet" href="/page-header.css">
+  <link rel="stylesheet" href="/theme.css">
+  <style>
+    .page-shell{margin-top:26px}
+    .page-heading{margin-bottom:20px}
+    .page-heading .eyebrow{margin:0 0 8px;color:#64b5ff;font-size:12px;font-weight:800;letter-spacing:1.7px;text-transform:uppercase}
+    .page-heading p:last-child{max-width:780px;margin:10px 0 0;color:var(--muted);font-size:15px;line-height:1.7}
+    .info-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;align-items:stretch}
+    .info-card{min-width:0;padding:24px;border:1px solid var(--line);border-radius:18px;background:var(--panel);box-shadow:0 18px 48px #0002}
+    .info-card h2{margin:0 0 5px;font-size:22px}
+    .card-subtitle{margin:0 0 18px;color:var(--muted);font-size:13px;line-height:1.6}
+    .version-pill{display:inline-flex;align-items:center;gap:7px;margin:0 0 16px;padding:6px 10px;border:1px solid #1685ff66;border-radius:999px;background:#1685ff1c;color:#a9d4ff;font-size:12px;font-weight:800}
+    .update-list{display:grid;gap:12px;margin:0;padding:0;list-style:none}
+    .update-list li{position:relative;padding:0 0 0 22px;color:var(--text);font-size:14px;line-height:1.65}
+    .update-list li::before{content:"✓";position:absolute;left:0;top:0;color:#55d7b4;font-weight:900}
+    .download-button{width:100%;min-height:48px;margin-top:22px;padding:12px 16px;display:inline-flex;align-items:center;justify-content:center;gap:9px;border:1px solid #58a5ff;border-radius:11px;background:linear-gradient(100deg,#1685ff,#0754e9);color:#fff;text-align:center;text-decoration:none;font-size:14px;font-weight:800;box-shadow:0 10px 25px #0003;transition:transform .18s,filter .18s}
+    .download-button:hover{transform:translateY(-2px);filter:brightness(1.08)}
+    .download-note{margin:10px 0 0;color:var(--muted);font-size:12px;line-height:1.6;text-align:center}
+    .update-section{padding:14px 0;border-top:1px solid #ffffff17}
+    .update-section:first-of-type{padding-top:0;border-top:0}
+    .update-section h3{margin:0 0 5px;font-size:15px}
+    .update-section p{margin:0;color:var(--muted);font-size:13px;line-height:1.65}
+    .page-actions{display:flex;justify-content:center;margin-top:22px}
+    .page-actions a{color:#b8d7ff;text-decoration:none;font-weight:700}
+    .page-actions a:hover{text-decoration:underline}
+    @media(max-width:760px){.info-grid{grid-template-columns:1fr}.info-card{padding:20px}.page-heading{padding:22px}}
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html"><img src="boy-android-logo-transparent.png" alt=""><span>Boy-Android</span></a>
+    <nav class="primary-nav" aria-label="Navigasi utama">
+      <a href="index.html">Login</a>
+      <a href="information.html" class="active" aria-current="page">Informasi & Unduhan</a>
+      <a href="tentang-kami.html">Tentang Kami</a>
+    </nav>
+  </header>
+
+  <main class="page-shell">
+    <a class="back-link" href="index.html">← Kembali ke Login</a>
+    <section class="page-heading">
+      <p class="eyebrow">Boy-Android</p>
+      <h1>Informasi dan Unduhan</h1>
+      <p>Lihat pembaruan aplikasi desktop SCHEMATICS dan website Boy-Android. Pilih tombol unduh untuk mendapatkan installer Windows.</p>
+    </section>
+
+    <div class="info-grid">
+      <section class="info-card" aria-labelledby="schematics-title">
+        <h2 id="schematics-title">Boy-Android SCHEMATICS</h2>
+        <p class="card-subtitle">Aplikasi desktop untuk membuka dokumentasi skema dan bitmap PCB.</p>
+        <span class="version-pill">Versi terbaru · v_0.1.25.10.26.23.14</span>
+        <ul class="update-list">
+          <li>Viewer BITMAP mendukung zoom dengan roda mouse dari 80% sampai 1200%, mengikuti posisi kursor, dan geser gambar dengan mouse kiri.</li>
+          <li>Layer dapat dinyalakan atau dimatikan melalui checklist tiga kolom. Preset tampilan menyediakan All, Front, Back, Copper, Outer Copper, Inner Copper, dan Drawings.</li>
+          <li>Panel Layer dan Preset tampil transparan di tengah atas viewer, dan otomatis tertutup saat area gambar diklik. Pesan “Click or tap to interact” disembunyikan.</li>
+          <li>Pengaturan awal layer menampilkan tracks penuh, vias dan zones 30%, serta menyembunyikan grid, page, pads, dan through holes.</li>
+        </ul>
+        <a class="download-button" href="https://github.com/boy-android/boy-android.github.io/releases/download/v_0.1.25.10.26.23.14/BOY-ANDROID.HARDWARE.SCHEMATICS.v_0.1.25.10.26.23.14.Setup.exe" aria-label="Unduh installer Boy-Android SCHEMATICS untuk Windows">
+          <span aria-hidden="true">↓</span> Unduh SCHEMATICS untuk Windows
+        </a>
+        <p class="download-note">Windows 10/11 · Installer 64-bit · Pastikan versi dan sumber unduhan sebelum memasang.</p>
+      </section>
+
+      <section class="info-card" aria-labelledby="website-title">
+        <h2 id="website-title">Website Boy-Android</h2>
+        <p class="card-subtitle">Pembaruan pada website yang mendukung referensi perangkat dan akun pengguna.</p>
+        <div class="update-section">
+          <h3>Katalog perangkat</h3>
+          <p>Pencarian membantu menemukan merek dan tipe HP. Katalog DATA, DUMP, EMMC, dan FIX ERROR menampilkan tipe yang memiliki dokumentasi.</p>
+        </div>
+        <div class="update-section">
+          <h3>Post terbaru</h3>
+          <p>Beranda menampilkan informasi dan kasus HP terbaru yang dipublikasikan di website.</p>
+        </div>
+        <div class="update-section">
+          <h3>Akun dan akses</h3>
+          <p>Status akun, masa berlaku, serta pembatasan sesi perangkat membantu mengelola akses pengguna.</p>
+        </div>
+        <div class="update-section">
+          <h3>Tampilan website</h3>
+          <p>Tema terang tersedia untuk halaman website yang didukung dan dapat dipilih melalui pengaturan.</p>
+        </div>
+        <div class="page-actions"><a href="tentang-kami.html">Tentang Boy-Android →</a></div>
+      </section>
+    </div>
+  </main>
+  <script src="/pwa.js"></script>
+</body>
+</html>
