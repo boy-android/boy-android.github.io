@@ -13,7 +13,16 @@
 <body>
 <main>
   <header class="top"><div><p class="muted">BOY-ANDROID / ADMIN</p><h1>Ikatan perangkat SCHEMATICS</h1></div><button id="logout" class="hidden" type="button">Keluar admin</button></header>
-  <div id="notice" class="notice" role="status">Memeriksa sesi…</div>
+  <div id="notice" class="notice" role="status">Memeriksa sesi admin SCHEMATICS…</div>
+  <script>
+    window.setTimeout(() => {
+      const status = document.getElementById("notice");
+      if (status?.textContent.trim() === "Memeriksa sesi admin SCHEMATICS…") {
+        status.textContent = "Pemeriksaan sesi tidak merespons. Muat ulang halaman; jika tetap muncul, kirim tangkapan layar halaman ini.";
+        status.classList.add("error");
+      }
+    }, 20000);
+  </script>
   <section id="loginPanel" class="panel hidden">
     <h2>Masuk sebagai admin</h2><form id="loginForm"><label for="email">Email</label><input id="email" type="email" autocomplete="username" required><label for="password">Kata sandi</label><input id="password" type="password" autocomplete="current-password" required><button type="submit">Masuk</button></form>
   </section>
@@ -38,7 +47,7 @@
   let checkInFlight = null;
   async function runAdminCheck() {
     show("devicePanel", false);
-    notice("Memeriksa sesi…");
+    notice("Memeriksa sesi admin SCHEMATICS…");
     try {
       if (!window.supabase?.createClient) throw new Error("Library Supabase tidak termuat. Muat ulang halaman dan periksa koneksi internet.");
       const { data, error: sessionError } = await withTimeout(supabase.auth.getSession(), "Pemeriksaan sesi terlalu lama. Periksa koneksi internet lalu muat ulang halaman.");
