@@ -211,6 +211,52 @@
       line-height: 1.8;
     }
 
+    .schematics-download {
+      width: min(100%, 360px);
+      min-height: 58px;
+      margin: 22px auto 0;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 11px;
+      border: 1px solid #4597f5;
+      border-radius: 11px;
+      background: #0d2d58;
+      color: #fff;
+      text-align: left;
+      text-decoration: none;
+      box-shadow: 0 8px 22px #0003;
+      transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
+    }
+
+    .schematics-download:hover {
+      transform: translateY(-2px);
+      background: #123b70;
+      box-shadow: 0 11px 26px #0004;
+      text-decoration: none;
+    }
+
+    .schematics-download:focus-visible {
+      outline: 3px solid #8bc6ff;
+      outline-offset: 3px;
+    }
+
+    .schematics-download-icon {
+      flex: none;
+      color: #77baff;
+      font-size: 24px;
+      line-height: 1;
+    }
+
+    .schematics-download-copy {
+      display: grid;
+      line-height: 1.35;
+    }
+
+    .schematics-download-copy strong { font-size: 13px; }
+    .schematics-download-copy small { color: #b4cae8; font-size: 11px; }
+
     /* ===== KARTU LOGIN ===== */
     .login-card {
       width: 100%;
@@ -580,7 +626,15 @@
         grid-template-columns: 1fr;
         gap: 0;
       }
-      .welcome { display: none; }
+      .welcome {
+        display: block;
+        margin-bottom: 16px;
+        padding: 0;
+      }
+      .welcome .illustration,
+      .welcome h1,
+      .welcome p { display: none; }
+      .schematics-download { margin-top: 0; }
       .login-card {
         width: 100%;
         padding: 28px 20px;
@@ -634,6 +688,17 @@
 
       <h1>Selamat <span>Datang!</span></h1>
       <p>Silakan login untuk melanjutkan.</p>
+      <a
+        class="schematics-download"
+        href="https://github.com/boy-android/boy-android.github.io/releases/download/v_0.1.25.10.26.22.0/BOY-ANDROID.HARDWARE.SCHEMATICS.v_0.1.25.10.26.22.0.Setup.exe"
+        aria-label="Unduh Aplikasi Desktop Boy-Android SCHEMATICS versi 0.1.25.10.26.22.0 untuk Windows"
+      >
+        <span class="schematics-download-icon" aria-hidden="true">⊞</span>
+        <span class="schematics-download-copy">
+          <strong>Unduh Aplikasi Desktop SCHEMATICS</strong>
+          <small>Windows 10/11 · v_0.1.25.10.26.22.0</small>
+        </span>
+      </a>
     </section>
 
     <!-- BAGIAN LOGIN -->
