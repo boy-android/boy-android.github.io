@@ -1,17 +1,31 @@
 {
-  "version": "v_0.1.25.10.26.23.14",
-  "downloadUrl": "https://github.com/boy-android/boy-android.github.io/releases/download/v_0.1.25.10.26.23.14/BOY-ANDROID.HARDWARE.SCHEMATICS.v_0.1.25.10.26.23.14.Setup.exe",
-  "sha256": "a8c2ab6ad92c6eb25b4c3a479f1e1a6a83c6e781009f18aa2bd5985b23a796ab",
+  "version": "v_0.1.26.10.26.24.0",
+  "downloadUrl": "https://github.com/boy-android/boy-android.github.io/releases/download/v_0.1.26.10.26.24.0/BOY-ANDROID.HARDWARE.SCHEMATICS.v_0.1.26.10.26.24.0.Setup.exe",
+  "sha256": "a7aac8b00f709511b64ea7b3efa5a2aa7372fc099c8d071010d581501668cc84",
   "schematicsUpdates": [
     "Viewer BITMAP mendukung zoom dengan roda mouse dari 80% sampai 1200%, mengikuti posisi kursor, dan geser gambar dengan mouse kiri.",
     "Layer dapat dinyalakan atau dimatikan melalui checklist tiga kolom. Preset tampilan menyediakan All, Front, Back, Copper, Outer Copper, Inner Copper, dan Drawings.",
     "Panel Layer dan Preset tampil transparan di tengah atas viewer, dan otomatis tertutup saat area gambar diklik. Pesan interaksi bawaan disembunyikan.",
-    "Pengaturan awal layer menampilkan tracks penuh, vias dan zones 30%, serta menyembunyikan grid, page, pads, dan through holes."
+    "Pengaturan awal layer menampilkan tracks penuh,",
+    "Optimasi feature bitmap",
+    "Optimasi tampilan pada bitmap"
   ],
   "websiteUpdates": [
-    { "title": "Katalog perangkat", "description": "Pencarian membantu menemukan merek dan tipe HP. Katalog DATA, DUMP, EMMC, dan FIX ERROR menampilkan tipe yang memiliki dokumentasi." },
-    { "title": "Post terbaru", "description": "Beranda menampilkan informasi dan kasus HP terbaru yang dipublikasikan di website." },
-    { "title": "Akun dan akses", "description": "Status akun, masa berlaku, serta pembatasan sesi perangkat membantu mengelola akses pengguna." },
-    { "title": "Tampilan website", "description": "Tema terang tersedia untuk halaman website yang didukung dan dapat dipilih melalui pengaturan." }
+    {
+      "title": "Katalog perangkat",
+      "description": "Pencarian membantu menemukan merek dan tipe HP. Katalog DATA, DUMP, EMMC, dan FIX ERROR menampilkan tipe yang memiliki dokumentasi."
+    },
+    {
+      "title": "Post terbaru",
+      "description": "Beranda menampilkan informasi dan kasus HP terbaru yang dipublikasikan di website."
+    },
+    {
+      "title": "Akun dan akses",
+      "description": "Status akun, masa berlaku, serta pembatasan sesi perangkat membantu mengelola akses pengguna."
+    },
+    {
+      "title": "Tampilan website",
+      "description": "Tema terang tersedia untuk halaman website yang didukung dan dapat dipilih melalui pengaturan."
+    }
   ]
 }
