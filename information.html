@@ -60,14 +60,9 @@
       <section class="info-card" aria-labelledby="schematics-title">
         <h2 id="schematics-title">Boy-Android SCHEMATICS</h2>
         <p class="card-subtitle">Aplikasi desktop untuk membuka dokumentasi skema dan bitmap PCB.</p>
-        <span class="version-pill">Versi terbaru · v_0.1.25.10.26.23.14</span>
-        <ul class="update-list">
-          <li>Viewer BITMAP mendukung zoom dengan roda mouse dari 80% sampai 1200%, mengikuti posisi kursor, dan geser gambar dengan mouse kiri.</li>
-          <li>Layer dapat dinyalakan atau dimatikan melalui checklist tiga kolom. Preset tampilan menyediakan All, Front, Back, Copper, Outer Copper, Inner Copper, dan Drawings.</li>
-          <li>Panel Layer dan Preset tampil transparan di tengah atas viewer, dan otomatis tertutup saat area gambar diklik. Pesan “Click or tap to interact” disembunyikan.</li>
-          <li>Pengaturan awal layer menampilkan tracks penuh, vias dan zones 30%, serta menyembunyikan grid, page, pads, dan through holes.</li>
-        </ul>
-        <a class="download-button" href="https://github.com/boy-android/boy-android.github.io/releases/download/v_0.1.25.10.26.23.14/BOY-ANDROID.HARDWARE.SCHEMATICS.v_0.1.25.10.26.23.14.Setup.exe" aria-label="Unduh installer Boy-Android SCHEMATICS untuk Windows">
+        <span class="version-pill" id="schematicsVersion">Memuat versi…</span>
+        <ul class="update-list" id="schematicsUpdates"></ul>
+        <a class="download-button" id="schematicsDownload" href="#" aria-label="Unduh installer Boy-Android SCHEMATICS untuk Windows">
           <span aria-hidden="true">↓</span> Unduh SCHEMATICS untuk Windows
         </a>
         <p class="download-note">Windows 10/11 · Installer 64-bit · Pastikan versi dan sumber unduhan sebelum memasang.</p>
@@ -76,26 +71,37 @@
       <section class="info-card" aria-labelledby="website-title">
         <h2 id="website-title">Website Boy-Android</h2>
         <p class="card-subtitle">Pembaruan pada website yang mendukung referensi perangkat dan akun pengguna.</p>
-        <div class="update-section">
-          <h3>Katalog perangkat</h3>
-          <p>Pencarian membantu menemukan merek dan tipe HP. Katalog DATA, DUMP, EMMC, dan FIX ERROR menampilkan tipe yang memiliki dokumentasi.</p>
-        </div>
-        <div class="update-section">
-          <h3>Post terbaru</h3>
-          <p>Beranda menampilkan informasi dan kasus HP terbaru yang dipublikasikan di website.</p>
-        </div>
-        <div class="update-section">
-          <h3>Akun dan akses</h3>
-          <p>Status akun, masa berlaku, serta pembatasan sesi perangkat membantu mengelola akses pengguna.</p>
-        </div>
-        <div class="update-section">
-          <h3>Tampilan website</h3>
-          <p>Tema terang tersedia untuk halaman website yang didukung dan dapat dipilih melalui pengaturan.</p>
-        </div>
+        <div id="websiteUpdates"></div>
         <div class="page-actions"><a href="tentang-kami.html">Tentang Boy-Android →</a></div>
       </section>
     </div>
   </main>
+  <script>
+    const escapeText = (value) => String(value ?? "").trim();
+    fetch(`/schematics-update.json?v=${Date.now()}`, { cache: "no-store" })
+      .then((response) => { if (!response.ok) throw new Error("manifest"); return response.json(); })
+      .then((manifest) => {
+        document.getElementById("schematicsVersion").textContent = `Versi terbaru · ${escapeText(manifest.version)}`;
+        const download = document.getElementById("schematicsDownload");
+        download.href = manifest.downloadUrl;
+        const appList = document.getElementById("schematicsUpdates");
+        appList.replaceChildren(...(manifest.schematicsUpdates || []).map((text) => {
+          const item = document.createElement("li"); item.textContent = escapeText(text); return item;
+        }));
+        const website = document.getElementById("websiteUpdates");
+        website.replaceChildren(...(manifest.websiteUpdates || []).map((entry) => {
+          const section = document.createElement("div"); section.className = "update-section";
+          const title = document.createElement("h3"); title.textContent = escapeText(entry.title);
+          const description = document.createElement("p"); description.textContent = escapeText(entry.description);
+          section.append(title, description); return section;
+        }));
+      })
+      .catch(() => {
+        document.getElementById("schematicsVersion").textContent = "Informasi pembaruan tidak dapat dimuat";
+        document.getElementById("schematicsUpdates").textContent = "Coba muat ulang halaman.";
+        document.getElementById("websiteUpdates").textContent = "Rincian pembaruan belum dapat dimuat.";
+      });
+  </script>
   <script src="/pwa.js"></script>
 </body>
 </html>

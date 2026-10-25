@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#06132f"><title>Kelola Rilis SCHEMATICS | Boy-Android</title>
+  <link rel="icon" type="image/png" href="boy-android-logo-transparent.png">
+  <link rel="stylesheet" href="/theme.css"><link rel="stylesheet" href="/page-header.css">
+  <style>
+    :root{color-scheme:dark}body{min-height:100vh}.admin-shell{width:min(1080px,calc(100% - 32px));margin:28px auto 56px}.back{color:#a9d4ff;text-decoration:none}.card{margin-top:16px;padding:24px;border:1px solid var(--line,#28415d);border-radius:16px;background:var(--panel,#0c1b2e)}.card h1,.card h2{margin-top:0}.muted{color:var(--muted,#aabbd0)}.hidden{display:none!important}.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.field{display:grid;gap:7px}.field.full{grid-column:1/-1}label{font-weight:700;font-size:13px}input,textarea{width:100%;box-sizing:border-box;border:1px solid #35516e;border-radius:9px;background:#081526;color:#eef6ff;padding:11px 12px;font:inherit}textarea{min-height:170px;resize:vertical;line-height:1.5}input[type=file]{padding:9px}button{min-height:42px;border:1px solid #3a6ca0;border-radius:9px;background:#126bd0;color:#fff;padding:9px 16px;font:700 14px system-ui,Segoe UI,sans-serif;cursor:pointer}button:disabled{opacity:.55;cursor:wait}.primary{margin-top:16px}.note{font-size:12px;line-height:1.6}.status{min-height:22px;margin:14px 0 0;color:#90e8c6;white-space:pre-wrap}.status.error{color:#ff9da6}.progress{height:12px;margin-top:12px;overflow:hidden;border-radius:10px;background:#07111e;border:1px solid #304764}.progress span{display:block;width:0;height:100%;background:linear-gradient(90deg,#2588ee,#52d7c0);transition:width .12s}.row{display:flex;justify-content:space-between;align-items:center;gap:12px}.small{font-size:12px}.danger{color:#ffd493}.lockbar{display:flex;justify-content:flex-end;margin:0 0 12px}#logout{background:#253247}
+    @media(max-width:720px){.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.card{padding:18px}.row{align-items:flex-start;flex-direction:column}}
+  </style>
+</head>
+<body>
+  <header class="site-header"><a class="brand" href="index.html"><img src="boy-android-logo-transparent.png" alt=""><span>Boy-Android</span></a><nav class="primary-nav"><a href="admin.html">Admin</a><a href="information.html">Informasi & Unduhan</a></nav></header>
+  <main class="admin-shell">
+    <a class="back" href="admin.html">← Kembali ke Admin</a>
+    <section class="card" id="loginPanel"><h1>Login admin</h1><p class="muted">Gunakan akun admin Boy-Android.</p><form id="loginForm" class="form-grid"><div class="field"><label for="email">Email</label><input id="email" type="email" autocomplete="username" required></div><div class="field"><label for="password">Kata sandi</label><input id="password" type="password" autocomplete="current-password" required></div><div class="field full"><button type="submit">Masuk</button><p id="loginStatus" class="status" role="status"></p></div></form></section>
+    <section id="adminPanel" class="hidden">
+      <div class="lockbar"><button id="logout" type="button">Keluar</button></div>
+      <section class="card"><div class="row"><div><h1 style="margin-bottom:4px">Terbitkan SCHEMATICS</h1><div id="who" class="muted small"></div></div><span class="muted small">GitHub dikelola melalui server</span></div>
+        <p class="note muted">Pilih installer <code>.exe</code>. Aplikasi akan memecah berkas menjadi potongan sementara, mengunggah rilis ke GitHub, lalu memperbarui <code>schematics-update.json</code>. Potongan sementara dihapus setelah proses selesai.</p>
+        <form id="releaseForm" class="form-grid">
+          <div class="field"><label for="version">Versi rilis</label><input id="version" placeholder="v_0.1.25.10.26.23.15" pattern="v_[0-9]+(\.[0-9]+){6}" required><span class="note muted">Contoh: v_0.1.25.10.26.23.15</span></div>
+          <div class="field"><label for="installer">Installer Windows (.exe)</label><input id="installer" type="file" accept=".exe,application/vnd.microsoft.portable-executable,application/octet-stream" required><span class="note muted">Batas file aplikasi ini: 200 MB. Ukuran potongan unggah 10 MB.</span></div>
+          <div class="field full"><label for="appUpdates">Rincian update aplikasi</label><textarea id="appUpdates" required placeholder="Satu rincian per baris"></textarea><span class="note muted">Satu baris akan menjadi satu poin di halaman information.html.</span></div>
+          <div class="field full"><label for="websiteUpdates">Rincian update website</label><textarea id="websiteUpdates" required placeholder="Nama bagian | penjelasan update&#10;Contoh: Katalog | Pencarian katalog diperbarui"></textarea><span class="note muted">Format satu rincian per baris: Nama bagian | penjelasan.</span></div>
+          <div class="field full"><label><input id="confirmPublish" type="checkbox" required style="width:auto;margin-right:8px">Saya sudah memeriksa versi dan rincian update sebelum menerbitkan.</label></div>
+          <div class="field full"><button class="primary" id="publishButton" type="submit">Unggah installer dan terbitkan update</button></div>
+        </form>
+        <div class="progress" aria-label="Progress unggah"><span id="progressBar"></span></div><p id="status" class="status" role="status"></p>
+      </section>
+      <section class="card"><h2>Yang akan diperbarui</h2><ul class="muted"><li>Installer pada GitHub Releases dengan tag sesuai versi.</li><li>Manifest <code>schematics-update.json</code> yang dipakai aplikasi untuk memeriksa pembaruan.</li><li>Rincian aplikasi dan website yang ditampilkan di <code>information.html</code>.</li></ul><p class="note danger">Pastikan versi lebih baru dari versi aplikasi yang telah dirilis. Setelah diterbitkan, klien akan melihat update saat memeriksa manifest.</p></section>
+    </section>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="/account-expiry.js"></script><script src="/device-lock.js"></script>
+  <script>
+    const SUPABASE_URL="https://ynohxhmcyoqkupxbqxhn.supabase.co";
+    const SUPABASE_KEY="sb_publishable_t0pDUhdqe6RikCmVcYRvjg_vmSahQF7";
+    const FUNCTION_NAME="admin-schematics-release";
+    const CHUNK_SIZE=10*1024*1024;
+    const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+    const $=(id)=>document.getElementById(id);
+    function say(text,error=false){$("status").textContent=text;$("status").classList.toggle("error",error)}
+    function setProgress(percent){$("progressBar").style.width=`${Math.max(0,Math.min(100,percent))}%`}
+    async function invoke(body){const {data,error}=await sb.functions.invoke(FUNCTION_NAME,{body});if(error)throw new Error(error.message||"Permintaan ke server gagal.");if(data?.error)throw new Error(data.error);return data}
+    async function loadManifest(){try{const response=await fetch(`/schematics-update.json?admin=${Date.now()}`,{cache:"no-store"});if(!response.ok)return;const manifest=await response.json();if(!$('appUpdates').value)$("appUpdates").value=(manifest.schematicsUpdates||[]).join("\n");if(!$('websiteUpdates').value)$("websiteUpdates").value=(manifest.websiteUpdates||[]).map((entry)=>`${entry.title} | ${entry.description}`).join("\n");if(!$('version').value){const match=String(manifest.version||"").match(/^(v_\d+(?:\.\d+){5}\.)(\d+)$/);if(match)$("version").value=match[1]+(Number(match[2])+1)}}catch{}}
+    async function checkSession(){const {data:{session}}=await sb.auth.getSession();if(!session){$("loginPanel").classList.remove("hidden");$("adminPanel").classList.add("hidden");$("logout").classList.add("hidden");return}const lock=await window.BoyDeviceLock.claim(sb);if(!lock.allowed){await sb.auth.signOut({scope:"local"});$("loginPanel").classList.remove("hidden");$("adminPanel").classList.add("hidden");say("Akun admin tidak dapat dipakai dari perangkat ini.",true);return}const {data:isAdmin,error:adminError}=await sb.rpc("ba_is_admin");if(adminError||isAdmin!==true){await sb.auth.signOut({scope:"local"});$("loginPanel").classList.remove("hidden");say("Halaman ini hanya untuk akun admin.",true);return}const {data:access,error}=await sb.from("user_access").select("status,expires_on").eq("user_id",session.user.id).maybeSingle();if(error||!access||access.status!=="approved"||window.BoyAccountExpiry.isExpired(access)){await sb.auth.signOut({scope:"local"});$("loginPanel").classList.remove("hidden");say("Akun admin belum disetujui atau masa berlakunya habis.",true);return}$("loginPanel").classList.add("hidden");$("adminPanel").classList.remove("hidden");$("who").textContent=session.user.email||"Admin";$("logout").classList.remove("hidden");await loadManifest()}
+    $("loginForm").addEventListener("submit",async(event)=>{event.preventDefault();const {error}=await sb.auth.signInWithPassword({email:$("email").value.trim(),password:$("password").value});if(error){$("loginStatus").textContent="Login gagal: "+error.message;$("loginStatus").classList.add("error");return}await checkSession()});
+    $("logout").addEventListener("click",async()=>{await sb.auth.signOut();location.reload()});
+    function parseLines(text){return text.split(/\r?\n/).map((line)=>line.trim()).filter(Boolean)}
+    function sha256(file){return file.arrayBuffer().then((buffer)=>crypto.subtle.digest("SHA-256",buffer)).then((hash)=>Array.from(new Uint8Array(hash),b=>b.toString(16).padStart(2,"0")).join(""))}
+    function uploadChunk(path,token,blob,onProgress){return new Promise((resolve,reject)=>{const encodedPath=path.split("/").map(encodeURIComponent).join("/");const url=`${SUPABASE_URL}/storage/v1/object/upload/sign/schematics-release-staging/${encodedPath}?token=${encodeURIComponent(token)}`;const xhr=new XMLHttpRequest();xhr.open("PUT",url);xhr.setRequestHeader("apikey",SUPABASE_KEY);xhr.setRequestHeader("Content-Type","application/octet-stream");xhr.upload.onprogress=(event)=>{if(event.lengthComputable)onProgress(event.loaded)};xhr.onload=()=>{if(xhr.status>=200&&xhr.status<300)resolve();else reject(new Error(`Unggah potongan gagal (${xhr.status}): ${xhr.responseText.slice(0,300)}`))};xhr.onerror=()=>reject(new Error("Koneksi terputus saat mengunggah potongan."));xhr.onabort=()=>reject(new Error("Unggah dibatalkan."));xhr.send(blob)})}
+    $("releaseForm").addEventListener("submit",async(event)=>{
+      event.preventDefault();const file=$("installer").files[0],version=$("version").value.trim();if(!file)return;
+      if(!file.name.toLowerCase().endsWith(".exe")){say("Pilih installer Windows berformat .exe.",true);return}
+      if(file.size<1||file.size>200*1024*1024){say("Ukuran installer harus di bawah 200 MB.",true);return}
+      const appUpdates=parseLines($("appUpdates").value);const websiteUpdates=parseLines($("websiteUpdates").value).map((line)=>{const split=line.indexOf("|");return split<0?{title:"Pembaruan website",description:line}:{title:line.slice(0,split).trim()||"Pembaruan website",description:line.slice(split+1).trim()}});
+      if(!appUpdates.length||!websiteUpdates.length){say("Isi minimal satu rincian update aplikasi dan website.",true);return}
+      if(!confirm(`Terbitkan ${version} dengan installer ${(file.size/1024/1024).toFixed(1)} MB? Versi dan rincian akan terlihat oleh pengguna.`))return;
+      const button=$("publishButton");button.disabled=true;setProgress(0);say("Menghitung SHA-256 installer…");let staging=null;
+      try{
+        const digest=await sha256(file);const chunkCount=Math.ceil(file.size/CHUNK_SIZE);const prepared=await invoke({action:"prepare",uploadId:crypto.randomUUID(),fileSize:file.size,chunkCount});staging={uploadId:prepared.uploadId,chunkCount};
+        let sent=0;
+        for(let index=0;index<chunkCount;index++){const start=index*CHUNK_SIZE,end=Math.min(file.size,start+CHUNK_SIZE),chunk=file.slice(start,end),target=prepared.chunks[index];say(`Mengunggah potongan ${index+1}/${chunkCount}…`);await uploadChunk(target.path,target.token,chunk,(loaded)=>{setProgress(((sent+loaded)/file.size)*72)});sent+=chunk.size;setProgress((sent/file.size)*72)}
+        say("Installer terkirim. Membuat GitHub Release dan memperbarui manifest…");setProgress(75);
+        const result=await invoke({action:"publish",uploadId:prepared.uploadId,fileSize:file.size,chunkCount,version,sha256:digest,schematicsUpdates:appUpdates,websiteUpdates});
+        setProgress(100);say(`Berhasil diterbitkan.\nVersi: ${result.version}\nRilis: ${result.releaseUrl}\nHalaman informasi: https://boy-android.github.io/information.html`);$("releaseForm").reset();
+      }catch(error){if(staging)try{await invoke({action:"cleanup",uploadId:staging.uploadId,chunkCount:staging.chunkCount})}catch{}say("Gagal menerbitkan update: "+error.message,true)}finally{button.disabled=false}
+    });
+    checkSession();
+  </script>
+</body>
+</html>
