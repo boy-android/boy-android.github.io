@@ -21,24 +21,57 @@
   <p class="hint muted"><a href="/admin.html">Kembali ke panel admin Boy-Android</a></p>
 </main>
 <script>
-  const supabase = window.supabase.createClient("https://ynohxhmcyoqkupxbqxhn.supabase.co", "sb_publishable_t0pDUhdqe6RikCmVcYRvjg_vmSahQF7", { auth: { storageKey: "boy-android-schematics-admin-auth", persistSession: true, autoRefreshToken: true, detectSessionInUrl: false } });
+  // Use the same default auth storage key as admin.html so both admin pages share one login.
+  const supabase = window.supabase?.createClient
+    ? window.supabase.createClient("https://ynohxhmcyoqkupxbqxhn.supabase.co", "sb_publishable_t0pDUhdqe6RikCmVcYRvjg_vmSahQF7", { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false } })
+    : null;
   const $ = id => document.getElementById(id);
   function notice(text, error = false) { $("notice").textContent = text; $("notice").classList.toggle("error", error); }
   function show(id, visible) { $(id).classList.toggle("hidden", !visible); }
-  async function checkAdmin() {
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!session) { show("loginPanel", true); show("devicePanel", false); show("logout", false); notice("Silakan masuk dengan akun admin."); return; }
-    show("logout", true);
-    const { data: isAdmin, error: adminError } = await supabase.rpc("ba_is_admin");
-    if (adminError || isAdmin !== true) { show("loginPanel", false); show("devicePanel", false); notice(adminError ? `Pemeriksaan admin gagal: ${adminError.message}` : "Akun ini bukan admin.", true); return; }
-    const { data: access, error: accessError } = await supabase.from("user_access").select("status,expires_on").eq("user_id", session.user.id).maybeSingle();
-    const today = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Jakarta", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date());
-    if (accessError || !access || access.status !== "approved" || (access.expires_on && access.expires_on < today)) { show("loginPanel", false); show("devicePanel", false); notice("Akun admin harus berstatus disetujui dan belum kedaluwarsa.", true); return; }
-    show("loginPanel", false); show("devicePanel", true); notice(`Login admin: ${session.user.email || ""}`); await loadDevices();
+  function withTimeout(promise, label) {
+    let timer;
+    return Promise.race([
+      promise,
+      new Promise((_, reject) => { timer = setTimeout(() => reject(new Error(label)), 15000); })
+    ]).finally(() => clearTimeout(timer));
+  }
+  let checkInFlight = null;
+  async function runAdminCheck() {
+    show("devicePanel", false);
+    notice("Memeriksa sesi…");
+    try {
+      if (!window.supabase?.createClient) throw new Error("Library Supabase tidak termuat. Muat ulang halaman dan periksa koneksi internet.");
+      const { data, error: sessionError } = await withTimeout(supabase.auth.getSession(), "Pemeriksaan sesi terlalu lama. Periksa koneksi internet lalu muat ulang halaman.");
+      if (sessionError) throw sessionError;
+      const session = data?.session;
+      if (!session) { show("loginPanel", true); show("logout", false); notice("Silakan masuk dengan akun admin."); return; }
+      show("logout", true);
+      const { data: isAdmin, error: adminError } = await withTimeout(supabase.rpc("ba_is_admin"), "Pemeriksaan hak admin terlalu lama. Muat ulang halaman.");
+      if (adminError) throw new Error(`Pemeriksaan admin gagal: ${adminError.message}`);
+      if (isAdmin !== true) { show("loginPanel", false); notice("Akun ini bukan admin.", true); return; }
+      const { data: access, error: accessError } = await withTimeout(
+        supabase.from("user_access").select("status,expires_on").eq("user_id", session.user.id).maybeSingle(),
+        "Pemeriksaan status akun terlalu lama. Muat ulang halaman."
+      );
+      if (accessError) throw new Error(`Status akun gagal diperiksa: ${accessError.message}`);
+      const today = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Jakarta", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date());
+      if (!access || access.status !== "approved" || (access.expires_on && access.expires_on < today)) {
+        show("loginPanel", false); notice("Akun admin harus berstatus disetujui dan belum kedaluwarsa.", true); return;
+      }
+      show("loginPanel", false); show("devicePanel", true); notice(`Login admin: ${session.user.email || ""}`); await loadDevices();
+    } catch (error) {
+      show("loginPanel", false); show("devicePanel", false); show("logout", false);
+      notice(`Gagal memeriksa sesi: ${error?.message || error}`, true);
+    }
+  }
+  function checkAdmin() {
+    if (checkInFlight) return checkInFlight;
+    checkInFlight = runAdminCheck().finally(() => { checkInFlight = null; });
+    return checkInFlight;
   }
   async function loadDevices() {
     const body = $("devices"); body.replaceChildren(); $("empty").classList.add("hidden");
-    const { data, error } = await supabase.rpc("ba_admin_list_schematics_devices");
+    const { data, error } = await withTimeout(supabase.rpc("ba_admin_list_schematics_devices"), "Memuat daftar ikatan PC terlalu lama. Periksa koneksi internet.");
     if (error) { notice(`Gagal memuat daftar ikatan PC. Jalankan supabase/schematic-files.sql terbaru: ${error.message}`, true); return; }
     for (const device of data || []) {
       const row = document.createElement("tr"); const email = document.createElement("td"); email.textContent = device.email || device.user_id;
@@ -55,9 +88,23 @@
     if (error || data !== true) { notice(`Ikatan PC tidak berhasil direset${error ? `: ${error.message}` : "."}`, true); button.disabled = false; return; }
     notice(`Ikatan PC ${device.email || "akun"} sudah direset. Pengguna dapat masuk dari PC pengganti.`); await loadDevices();
   }
-  $("loginForm").addEventListener("submit", async event => { event.preventDefault(); const { error } = await supabase.auth.signInWithPassword({ email: $("email").value.trim(), password: $("password").value }); if (error) { notice(`Login gagal: ${error.message}`, true); return; } await checkAdmin(); });
-  $("logout").addEventListener("click", async () => { await supabase.auth.signOut(); await checkAdmin(); });
-  supabase.auth.onAuthStateChange(() => setTimeout(checkAdmin, 0));
+  $("loginForm").addEventListener("submit", async event => {
+    event.preventDefault();
+    const button = $("loginForm").querySelector("button[type=submit]"); button.disabled = true;
+    try {
+      const { error } = await withTimeout(supabase.auth.signInWithPassword({ email: $("email").value.trim(), password: $("password").value }), "Login terlalu lama. Periksa koneksi internet.");
+      if (error) { notice(`Login gagal: ${error.message}`, true); return; }
+      await checkAdmin();
+    } catch (error) { notice(`Login gagal: ${error?.message || error}`, true); }
+    finally { button.disabled = false; }
+  });
+  $("logout").addEventListener("click", async () => {
+    $("logout").disabled = true;
+    try { const { error } = await supabase.auth.signOut(); if (error) throw error; await checkAdmin(); }
+    catch (error) { notice(`Logout gagal: ${error?.message || error}`, true); }
+    finally { $("logout").disabled = false; }
+  });
+  if (supabase) supabase.auth.onAuthStateChange(() => setTimeout(checkAdmin, 0));
   checkAdmin();
 </script>
 </body>
