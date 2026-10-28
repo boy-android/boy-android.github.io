@@ -1,15 +1,15 @@
 {
-  "version": "v_0.1.26.10.26.24.2",
-  "downloadUrl": "https://github.com/boy-android/boy-android.github.io/releases/download/v_0.1.26.10.26.24.2/BOY-ANDROID.HARDWARE.SCHEMATICS.v_0.1.26.10.26.24.2.Setup.exe",
-  "sha256": "f7f4802c4e750618221dff063cba0b105a187d0f98dcb4f0f1d7f2121d574950",
+  "version": "v_0.1.28.10.26.25.0",
+  "downloadUrl": "https://github.com/boy-android/boy-android.github.io/releases/download/v_0.1.28.10.26.25.0/BOY-ANDROID.HARDWARE.SCHEMATICS.v_0.1.28.10.26.25.0.Setup.exe",
+  "sha256": "bdae0101aa233f2ec6d70329d362a53cafaeeba4ae136575079897204e12afda",
   "schematicsUpdates": [
-    "Layer dapat dinyalakan atau dimatikan melalui checklist tiga kolom. Preset tampilan menyediakan All, Front, Back, Copper, Outer Copper, Inner Copper, dan Drawings.",
     "Panel Layer dan Preset tampil transparan di tengah atas viewer, dan otomatis tertutup saat area gambar diklik. Pesan interaksi bawaan disembunyikan.",
     "Pengaturan awal layer menampilkan tracks penuh,",
     "Optimasi feature bitmap",
     "Optimasi tampilan pada bitmap",
     "Menambahkan fitur combine dengan jendela baru",
-    "Jendela combine dapat membuka 2 hingga 4 tab secara bersamaan"
+    "Jendela combine dapat membuka 2 hingga 4 tab secara bersamaan",
+    "Memperbaiki bug installer beserta version build aplikasi error"
   ],
   "websiteUpdates": [
     {
