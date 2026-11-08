@@ -81,7 +81,7 @@
     fetch(`/schematics-update.json?v=${Date.now()}`, { cache: "no-store" })
       .then((response) => { if (!response.ok) throw new Error("manifest"); return response.json(); })
       .then((manifest) => {
-        document.getElementById("schematicsVersion").textContent = `Versi terbaru · ${escapeText(manifest.version)}`;
+        document.getElementById("schematicsVersion").textContent = `Versi terbaru · ${escapeText(manifest.displayVersion || manifest.version)}`;
         const download = document.getElementById("schematicsDownload");
         download.href = manifest.downloadUrl;
         const appList = document.getElementById("schematicsUpdates");
