@@ -1,7 +1,7 @@
 {
-  "version": "v_0.1.28.10.26.25.0",
-  "downloadUrl": "https://github.com/boy-android/boy-android.github.io/releases/download/v_0.1.28.10.26.25.0/BOY-ANDROID.HARDWARE.SCHEMATICS.v_0.1.28.10.26.25.0.Setup.exe",
-  "sha256": "bdae0101aa233f2ec6d70329d362a53cafaeeba4ae136575079897204e12afda",
+  "version": "v_0.1.08.11.26.30.0",
+  "downloadUrl": "https://github.com/boy-android/boy-android.github.io/releases/download/v_0.1.08.11.26.30.0/BOY-ANDROID.HARDWARE.SCHEMATICS.v_0.1.08.11.26.30.0.Setup.exe",
+  "sha256": "4a9c27ba6ce5e81d99800288b2fd29eac77bc07af349e513c5b7184dac957702",
   "schematicsUpdates": [
     "Panel Layer dan Preset tampil transparan di tengah atas viewer, dan otomatis tertutup saat area gambar diklik. Pesan interaksi bawaan disembunyikan.",
     "Pengaturan awal layer menampilkan tracks penuh,",
