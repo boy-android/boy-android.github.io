@@ -1,9 +1,9 @@
 {
-  "version": "v_0.1.28.10.26.31.0",
-  "displayVersion": "v_0.1.08.11.26.31.0",
-  "legacyVersion": "v_0.1.28.10.26.31.0",
-  "downloadUrl": "https://github.com/boy-android/boy-android.github.io/releases/download/v_0.1.08.11.26.31.0/BOY-ANDROID.HARDWARE.SCHEMATICS.v_0.1.08.11.26.31.0.Setup.exe",
-  "sha256": "75baa2817192ce8729782c46a86d9fbbec88fd5c8915a8781d2fda5e735ca041",
+  "version": "v_0.1.28.10.26.32.0",
+  "displayVersion": "v_0.1.09.11.26.32.0",
+  "legacyVersion": "v_0.1.28.10.26.32.0",
+  "downloadUrl": "https://github.com/boy-android/boy-android.github.io/releases/download/v_0.1.09.11.26.32.0/BOY-ANDROID.HARDWARE.SCHEMATICS.v_0.1.09.11.26.32.0.Setup.exe",
+  "sha256": "8101e10d90bf69d56801587c586007366a477e8750e3d127b488864b7e6a0bf5",
   "schematicsUpdates": [
     "Panel Layer dan Preset tampil transparan di tengah atas viewer, dan otomatis tertutup saat area gambar diklik. Pesan interaksi bawaan disembunyikan.",
     "Pengaturan awal layer menampilkan tracks penuh,",
@@ -11,7 +11,8 @@
     "Optimasi tampilan pada bitmap",
     "Menambahkan fitur combine dengan jendela baru",
     "Jendela combine dapat membuka 2 hingga 4 tab secara bersamaan",
-    "Memperbaiki bug installer beserta version build aplikasi error"
+    "Memperbaiki bug installer beserta version build aplikasi error",
+    "add blinked view pads and featured support"
   ],
   "websiteUpdates": [
     {
